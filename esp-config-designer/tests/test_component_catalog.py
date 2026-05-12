@@ -43,6 +43,12 @@ def catalog_with_items(items):
 
 
 class ComponentCatalogTests(unittest.TestCase):
+    def test_zip_member_validation_allows_only_root_license_markdown(self):
+        self.assertEqual("LICENSE.md", server.safe_zip_component_package_member_path("LICENSE.md"))
+        self.assertEqual("", server.safe_zip_component_package_member_path("license.md"))
+        self.assertEqual("", server.safe_zip_component_package_member_path("docs/LICENSE.md"))
+        self.assertEqual("", server.safe_zip_component_package_member_path("README.md"))
+
     def test_normalize_component_entry_preserves_catalog_key(self):
         entry, error = server.normalize_component_entry(
             component_entry(
@@ -234,6 +240,39 @@ class ComponentCatalogTests(unittest.TestCase):
                     ["sensor/homeassistant/home_assistant", "sensor/homeassistant/sensor"],
                     keys,
                 )
+        finally:
+            server.TARGET_DIR = original_target_dir
+            server.COMPONENTS_BASE_LIST_PATH = original_base_list_path
+
+    def test_import_zip_ignores_root_license_markdown(self):
+        base_catalog = catalog_with_items([component_entry("Template Sensor", "sensor/template", available=False)])
+        zip_catalog = catalog_with_items([component_entry("Template Sensor", "sensor/template", available=True)])
+        schema = {"id": "sensor.template", "domain": "sensor", "platform": "template", "fields": []}
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w") as archive:
+            archive.writestr("components_list.json", json.dumps(zip_catalog))
+            archive.writestr("LICENSE.md", "License text")
+            archive.writestr("schemas/components/sensor/template.json", json.dumps(schema))
+        buffer.seek(0)
+
+        original_target_dir = server.TARGET_DIR
+        original_base_list_path = server.COMPONENTS_BASE_LIST_PATH
+        try:
+            with tempfile.TemporaryDirectory() as temp_dir:
+                base_path = pathlib.Path(temp_dir) / "base_components_list.json"
+                base_path.write_text(json.dumps(base_catalog), encoding="utf-8")
+                server.TARGET_DIR = temp_dir
+                server.COMPONENTS_BASE_LIST_PATH = str(base_path)
+
+                response = server.app.test_client().post(
+                    "/api/components/import-zip",
+                    data={"file": (buffer, "components.zip")},
+                    content_type="multipart/form-data",
+                    headers={"X-Ingress-Path": "/test"},
+                )
+
+                self.assertEqual(200, response.status_code, response.get_data(as_text=True))
+                self.assertEqual({"imported": 1, "updated": 0, "skipped": 0, "errors": []}, response.json["summary"])
         finally:
             server.TARGET_DIR = original_target_dir
             server.COMPONENTS_BASE_LIST_PATH = original_base_list_path

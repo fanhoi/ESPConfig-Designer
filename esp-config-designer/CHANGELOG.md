@@ -1,3 +1,5 @@
-## 1.1.8
+## 1.1.9
 
-- Initial repository release
+- The component import mechanism has been modified
+- Fixed several minor UI bugs
+

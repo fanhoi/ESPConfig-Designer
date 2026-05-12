@@ -513,7 +513,7 @@ def save_runtime_components_catalog(payload: dict) -> None:
         handle.write("\n")
 
 
-def safe_zip_json_member_path(name: str) -> str:
+def safe_zip_component_package_member_path(name: str) -> str:
     raw = str(name or "").strip().replace("\\", "/")
     if not raw or raw.startswith("/"):
         return ""
@@ -524,6 +524,8 @@ def safe_zip_json_member_path(name: str) -> str:
         return ""
     if normalized.startswith("../") or "/../" in normalized:
         return ""
+    if normalized == "LICENSE.md":
+        return normalized
     if not normalized.endswith(".json"):
         return ""
     if normalized == "components_list.json":
@@ -1869,7 +1871,7 @@ def api_components_import_zip():
             archive.close()
             return json_error("Too many files in zip", "COMPONENTS_ZIP_TOO_MANY_FILES", 400)
 
-        safe_name = safe_zip_json_member_path(info.filename)
+        safe_name = safe_zip_component_package_member_path(info.filename)
         if not safe_name:
             archive.close()
             return json_error("Invalid file in zip package", "COMPONENTS_ZIP_INVALID_FILE", 400)
@@ -1883,6 +1885,8 @@ def api_components_import_zip():
             return json_error("Zip unpacked size is too large", "COMPONENTS_ZIP_UNPACKED_TOO_LARGE", 400)
 
         safe_members[safe_name] = info
+        if safe_name == "LICENSE.md":
+            continue
         if safe_name.startswith("schemas/components/"):
             schema_members.add(safe_name)
 
