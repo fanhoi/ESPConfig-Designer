@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+esp-config-designer-frontend/node_modules/
+esp-config-designer-frontend/dist/
+esp-config-designer-frontend/runtime/
+R&D/
