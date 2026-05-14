@@ -1,5 +1,5 @@
-## 1.1.9
+## 1.2.0
 
-- The component import mechanism has been modified
-- Fixed several minor UI bugs
-
+- Added the ability to configure multiple networks simultaneously
+- Improved the order of settings displayed in the form on the Network tab
+- Added several missing settings

@@ -4,12 +4,23 @@
   "platform": "wifi",
   "fields": [
     {
+      "key": "Multiple Networks Enable",
+      "type": "boolean",
+      "emitYAML": "never",
+      "required": false,
+      "lvl": "advanced"
+    },
+    {
       "key": "ssid",
       "type": "text",
       "required": true,
       "lvl": "simple",
       "default": "!secret wifi_ssid",
-      "placeholder": "!secret wifi_ssid"
+      "placeholder": "!secret wifi_ssid",
+      "dependsOn": {
+        "key": "Multiple Networks Enable",
+        "notValue": true
+      }
     },
     {
       "key": "password",
@@ -23,7 +34,160 @@
           "mode": "none"
         }
       },
-      "placeholder": "!secret wifi_password"
+      "placeholder": "!secret wifi_password",
+      "dependsOn": {
+        "key": "Multiple Networks Enable",
+        "notValue": true
+      }
+    },
+    {
+      "key": "networks",
+      "type": "list",
+      "required": false,
+      "lvl": "simple",
+      "dependsOn": {
+        "key": "Multiple Networks Enable",
+        "value": true
+      },
+      "item": {
+        "type": "object",
+        "fields": [
+          {
+            "key": "ssid",
+            "type": "text",
+            "required": true,
+            "lvl": "simple",
+            "placeholder": "!secret wifi_ssid"
+          },
+          {
+            "key": "password",
+            "type": "password",
+            "required": false,
+            "lvl": "simple",
+            "settings": {
+              "format": "any",
+              "generator": {
+                "mode": "none"
+              }
+            },
+            "placeholder": "!secret wifi_password"
+          },
+          {
+            "key": "manual_ip",
+            "type": "object",
+            "required": false,
+            "lvl": "advanced",
+            "fields": [
+              {
+                "key": "static_ip",
+                "type": "text",
+                "required": false,
+                "lvl": "advanced",
+                "placeholder": "192.168.1.50"
+              },
+              {
+                "key": "gateway",
+                "type": "text",
+                "required": false,
+                "lvl": "advanced",
+                "placeholder": "192.168.1.1"
+              },
+              {
+                "key": "subnet",
+                "type": "text",
+                "required": false,
+                "lvl": "advanced",
+                "placeholder": "255.255.255.0"
+              },
+              {
+                "key": "dns1",
+                "type": "text",
+                "required": false,
+                "lvl": "advanced",
+                "placeholder": "1.1.1.1"
+              },
+              {
+                "key": "dns2",
+                "type": "text",
+                "required": false,
+                "lvl": "advanced",
+                "placeholder": "8.8.8.8"
+              }
+            ]
+          },
+          {
+            "key": "channel",
+            "type": "number",
+            "required": false,
+            "lvl": "normal",
+            "placeholder": "1"
+          },
+          {
+            "key": "bssid",
+            "type": "text",
+            "required": false,
+            "lvl": "advanced",
+            "placeholder": "AA:BB:CC:DD:EE:FF"
+          },
+          {
+            "key": "hidden",
+            "type": "boolean",
+            "required": false,
+            "lvl": "normal"
+          },
+          {
+            "key": "priority",
+            "type": "number",
+            "required": false,
+            "lvl": "normal",
+            "placeholder": "0"
+          }
+        ]
+      }
+    },
+    {
+      "key": "min_auth_mode",
+      "type": "select",
+      "required": false,
+      "lvl": "normal",
+      "default": "",
+      "options": [
+        "WPA",
+        "WPA2",
+        "WPA3"
+      ]
+    },
+    {
+      "key": "fast_connect",
+      "type": "boolean",
+      "required": false,
+      "lvl": "normal"
+    },
+    {
+      "key": "power_save_mode",
+      "type": "select",
+      "required": false,
+      "lvl": "normal",
+      "default": "NONE",
+      "options": [
+        "NONE",
+        "LIGHT",
+        "HIGH"
+      ]
+    },
+    {
+      "key": "reboot_timeout",
+      "type": "duration",
+      "required": false,
+      "lvl": "advanced",
+      "placeholder": "15min"
+    },
+    {
+      "key": "domain",
+      "type": "text",
+      "required": false,
+      "lvl": "advanced",
+      "placeholder": ".local"
     },
     {
       "key": "ap",
@@ -116,42 +280,14 @@
       ]
     },
     {
-      "key": "fast_connect",
-      "type": "boolean",
-      "required": false,
-      "lvl": "normal"
-    },
-    {
-      "key": "power_save_mode",
-      "type": "select",
-      "required": false,
-      "lvl": "normal",
-      "default": "NONE",
-      "options": [
-        "NONE",
-        "LIGHT",
-        "HIGH"
-      ]
-    },
-    {
-      "key": "reboot_timeout",
-      "type": "duration",
-      "required": false,
-      "lvl": "advanced",
-      "placeholder": "15min"
-    },
-    {
-      "key": "domain",
-      "type": "text",
-      "required": false,
-      "lvl": "advanced",
-      "placeholder": ".local"
-    },
-    {
       "key": "manual_ip",
       "type": "object",
       "required": false,
       "lvl": "advanced",
+      "dependsOn": {
+        "key": "Multiple Networks Enable",
+        "notValue": true
+      },
       "fields": [
         {
           "key": "static_ip",

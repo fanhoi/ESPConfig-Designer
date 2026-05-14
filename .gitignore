@@ -3,4 +3,5 @@ __pycache__/
 esp-config-designer-frontend/node_modules/
 esp-config-designer-frontend/dist/
 esp-config-designer-frontend/runtime/
+tests/
 R&D/
