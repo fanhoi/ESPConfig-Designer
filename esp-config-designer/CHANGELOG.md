@@ -1,5 +1,5 @@
-## 1.2.1
+## 1.2.2
 
-- Fixed the layer ordering bug in Display Configurator.
-- Renamed several options to better match their purpose.
+- Added the components package to the repository.
+- Added social media links.
 - Fixed several smaller bugs.

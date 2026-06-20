@@ -20,6 +20,20 @@
         <img src="/ECD_logo.png" alt="ECD" />
         <span class="builder-hero-meta">v {{ appVersion }}</span>
         </div>
+        <nav class="app-social-links" aria-label="External links">
+          <a
+            v-for="link in socialLinks"
+            :key="link.label"
+            class="app-social-link"
+            :href="link.href"
+            target="_blank"
+            rel="noopener noreferrer"
+            :aria-label="link.label"
+            :title="link.label"
+          >
+            <img :src="link.icon" alt="" aria-hidden="true" />
+          </a>
+        </nav>
       </div>
 
       <div class="app-topbar-actions">
@@ -91,6 +105,23 @@ import { RouterView, useRoute, useRouter } from "vue-router";
 import UnsavedChangesModal from "./components/UnsavedChangesModal.vue";
 
 const appVersion = __APP_VERSION__;
+const socialLinks = [
+  {
+    label: "Watch on YouTube",
+    href: "https://youtu.be/CrP15p8e_z8",
+    icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/youtube.svg"
+  },
+  {
+    label: "Open GitHub repository",
+    href: "https://github.com/sokolsok/ESPConfig-Designer",
+    icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/github.svg"
+  },
+  {
+    label: "Support on PayPal",
+    href: "https://www.paypal.com/paypalme/ss4h",
+    icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/paypal.svg"
+  }
+];
 
 const route = useRoute();
 const router = useRouter();
@@ -327,6 +358,45 @@ watch(
 .app-topbar-left {
   display: inline-flex;
   align-items: center;
+  gap: 42px;
+}
+
+.app-social-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-social-link {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dbe3ef;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.app-social-link:hover,
+.app-social-link:focus-visible {
+  background: #eef3fd;
+  border-color: #b9c9e4;
+  transform: translateY(-1px);
+}
+
+.app-social-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #6e93c4 inset;
+}
+
+.app-social-link img {
+  width: 18px;
+  height: 18px;
+  display: block;
+  opacity: 0.82;
 }
 
 .app-topbar-actions {

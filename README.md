@@ -1,4 +1,4 @@
-# ESPConfig Designer v.1.2.1
+# ESPConfig Designer v.1.2.2
 
 ESPConfig Designer is a Home Assistant ingress add-on for building, organizing, validating, compiling, and deploying ESPHome configurations through a schema-driven visual editor.
 
@@ -198,18 +198,6 @@ The frontend is schema-driven.
 Detailed authoring documentation lives in:
 
 - `docs/HOW_TO_CREATE_SCHEMA.md`
-
-### Public and optional schemas
-
-This repository includes the public schema format, authoring documentation, and a set of free schemas that are distributed with the application.
-
-Users are not locked into prebuilt schemas. They can create their own schemas, modify schemas, or import custom schema packs using the documented schema format.
-
-Optional prebuilt schema packs may be offered separately as paid convenience and maintenance add-ons. These packs are not required to use ESPConfig Designer and are not part of this public repository unless explicitly included here.
-
-Any separately distributed paid schema pack may use its own license terms. Those terms apply only to that separately distributed package and do not change the license of this public repository.
-
----
 
 ## Runtime Storage Model
 
