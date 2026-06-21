@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+// Компонент для отображения списка с фиксированным количеством элементов
 import SchemaField from '../SchemaField.vue';
 
 // FixedListField is the schema-driven answer for tuple-like inputs such as camera

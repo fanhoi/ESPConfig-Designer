@@ -7,9 +7,9 @@
           <span :class="compileStateClass">{{ compileStateLabel }}</span>
         </div>
         <div class="compile-actions">
-          <span v-if="compileIsReconnecting" class="compile-reconnect">Reconnecting...</span>
+          <span v-if="compileIsReconnecting" class="compile-reconnect">Переподключение...</span>
           <div class="compile-scroll-lock">
-            <span class="compile-scroll-lock-label">Scroll lock</span>
+            <span class="compile-scroll-lock-label">Скролл-лок</span>
             <button
               type="button"
               class="compile-scroll-lock-switch"
@@ -35,10 +35,10 @@
       <div class="compile-modal-footer">
         <div class="compile-footer-actions">
           <button v-if="canDownloadCompiledBinary" type="button" class="btn-standard" @click="emit('download')">
-            Download
+            Скачать
           </button>
           <button type="button" class="btn-standard secondary" :disabled="!canCloseCompile" @click="emit('close-compile')">
-            Close
+            Закрыть
           </button>
         </div>
       </div>

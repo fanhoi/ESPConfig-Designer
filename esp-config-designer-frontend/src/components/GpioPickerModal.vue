@@ -8,24 +8,24 @@
     <div class="gpio-picker-card">
       <header class="gpio-picker-header">
         <div>
-          <h3>GPIO Picker</h3>
+          <h3>Выбор GPIO</h3>
           <p class="gpio-picker-sub">{{ titleText }}</p>
         </div>
-        <button type="button" class="secondary compact" @click="handleClose">Close</button>
+        <button type="button" class="secondary compact" @click="handleClose">Закрыть</button>
       </header>
 
       <div class="gpio-picker-search">
-        <input v-model="query" type="text" placeholder="Search GPIO or note" />
+        <input v-model="query" type="text" placeholder="Поиск GPIO или примечания" />
         <div class="gpio-picker-legend">
-          <span class="legend-item safe">Safe</span>
-          <span class="legend-item caution">Caution</span>
-          <span class="legend-item avoid">Avoid</span>
-          <span class="legend-item used">In use</span>
+          <span class="legend-item safe">Безопасно</span>
+          <span class="legend-item caution">Внимание</span>
+          <span class="legend-item avoid">Избегать</span>
+          <span class="legend-item used">Занят</span>
         </div>
       </div>
 
       <div class="gpio-picker-body">
-        <div v-if="!orderedOptions.length" class="gpio-empty">No GPIO matches.</div>
+        <div v-if="!orderedOptions.length" class="gpio-empty">Нет подходящих GPIO.</div>
         <div v-for="pin in orderedOptions" :key="pin.key" class="gpio-row">
           <button
             type="button"
@@ -35,7 +35,7 @@
             @click="selectPin(pin)"
           >
             <span class="gpio-id">{{ pin.id }}</span>
-            <span class="gpio-tag" v-if="pin.selectable === false">Disabled</span>
+            <span class="gpio-tag" v-if="pin.selectable === false">Отключен</span>
           </button>
           <div class="gpio-row-note">
             {{ getPinNote(pin) }}
@@ -80,7 +80,7 @@ const emit = defineEmits(["close", "select"]);
 
 const query = ref("");
 
-const titleText = computed(() => props.title || "Select GPIO");
+const titleText = computed(() => props.title || "Выберите GPIO");
 
 const normalizeKey = (value) => String(value || "").toLowerCase().replace(/\s+/g, "");
 
@@ -151,7 +151,7 @@ watch(
   }
 );
 
-const getPinNote = (pin) => pin.error || pin.warning || pin.note || "General-purpose GPIO.";
+const getPinNote = (pin) => pin.error || pin.warning || pin.note || "GPIO общего назначения.";
 
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", handleKeydown);

@@ -19,7 +19,7 @@
               class="folder-inline-toggle"
               role="button"
               tabindex="0"
-              aria-label="Toggle folder"
+              aria-label="Свернуть/развернуть папку"
               @click.stop="emit('toggle-folder-expanded', row.id)"
               @keydown.enter.stop.prevent="emit('toggle-folder-expanded', row.id)"
               @keydown.space.stop.prevent="emit('toggle-folder-expanded', row.id)"
@@ -34,7 +34,7 @@
             class="folder-menu-toggle"
             role="button"
             tabindex="0"
-            aria-label="Folder menu"
+            aria-label="Меню папки"
             @click.stop="emit('toggle-folder-menu', row.id)"
             @keydown.enter.stop.prevent="emit('toggle-folder-menu', row.id)"
             @keydown.space.stop.prevent="emit('toggle-folder-menu', row.id)"
@@ -44,8 +44,8 @@
         </button>
 
         <div v-if="openFolderMenuId === row.id" class="folder-menu">
-          <button type="button" @click.stop="emit('begin-add-folder', row.id)">Add folder</button>
-          <button type="button" v-if="!row.isRoot" @click.stop="emit('remove-folder', row.id)">Delete folder</button>
+          <button type="button" @click.stop="emit('begin-add-folder', row.id)">Добавить папку</button>
+          <button type="button" v-if="!row.isRoot" @click.stop="emit('remove-folder', row.id)">Удалить папку</button>
         </div>
       </template>
 
@@ -69,7 +69,7 @@
             :value="pendingFolderName"
             type="text"
             class="folder-draft-input"
-            placeholder="New folder"
+            placeholder="Новая папка"
             @input="emit('update:pendingFolderName', $event.target.value)"
             @keydown.enter.prevent="emit('commit-pending-folder')"
             @keydown.esc.prevent="emit('cancel-pending-folder')"

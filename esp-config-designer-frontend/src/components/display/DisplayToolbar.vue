@@ -23,6 +23,8 @@
 </template>
 
 <script setup>
+// Панель инструментов конструктора дисплея для добавления графических элементов (текст, картинка, иконка, график, анимация, фигура)
+
 defineProps({
   orientation: {
     type: String,
@@ -39,32 +41,32 @@ defineEmits(["add"]);
 const actions = [
   {
     type: "text",
-    label: "Add Text",
+    label: "Добавить текст",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/alpha-a-box-outline.svg"
   },
   {
     type: "image",
-    label: "Add Image",
+    label: "Добавить изображение",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/image.svg"
   },
   {
     type: "icon",
-    label: "Add Icon",
+    label: "Добавить иконку",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/emoticon-excited-outline.svg"
   },
   {
     type: "graph",
-    label: "Add Graph",
+    label: "Добавить график",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/chart-bell-curve-cumulative.svg"
   },
   {
     type: "animation",
-    label: "Add Animation",
+    label: "Добавить анимацию",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/animation-play.svg"
   },
   {
     type: "shape",
-    label: "Add Shape",
+    label: "Добавить фигуру",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/pentagon-outline.svg"
   }
 ];

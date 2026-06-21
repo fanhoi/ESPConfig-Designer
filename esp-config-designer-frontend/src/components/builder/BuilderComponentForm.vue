@@ -54,7 +54,7 @@
         :disabled="!canSaveCustomComponent"
         @click="emit('save-custom-component-template')"
       >
-        {{ isSavingCustomComponent ? "Saving..." : customComponentActionLabel }}
+        {{ isSavingCustomComponent ? "Сохранение..." : customComponentActionLabel }}
       </button>
       <div v-if="customComponentSaveError" class="notice notice--error">
         {{ customComponentSaveError }}

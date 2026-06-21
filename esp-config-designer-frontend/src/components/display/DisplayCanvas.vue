@@ -191,13 +191,14 @@
         </div>
       </div>
       <div v-if="!elements.length" class="display-canvas__hint">
-        Click "Add" to place an element.
+        Нажмите «Добавить», чтобы разместить элемент.
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+// Холст конструктора дисплея, отображающий визуальное превью элементов (текст, картинки, фигуры, графики)
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { colorToCss } from "../../utils/displayColor";
 

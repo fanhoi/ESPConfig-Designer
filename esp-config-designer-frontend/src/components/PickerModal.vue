@@ -17,7 +17,7 @@
             </a>
           </div>
         </div>
-        <button type="button" class="secondary compact" @click="handleClose">Close</button>
+        <button type="button" class="secondary compact" @click="handleClose">Закрыть</button>
       </header>
 
       <div class="icon-picker-search">
@@ -80,7 +80,7 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: "Choose"
+    default: "Выбрать"
   },
   helpUrl: {
     type: String,
@@ -88,15 +88,15 @@ const props = defineProps({
   },
   helpLabel: {
     type: String,
-    default: "Documentation"
+    default: "Документация"
   },
   searchPlaceholder: {
     type: String,
-    default: "Search"
+    default: "Поиск"
   },
   emptyLabel: {
     type: String,
-    default: "No items to show."
+    default: "Нет элементов для отображения."
   }
 });
 

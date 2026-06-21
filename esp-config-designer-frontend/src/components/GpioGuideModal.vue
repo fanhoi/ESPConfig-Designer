@@ -4,12 +4,12 @@
       <header class="gpio-guide-header">
         <div>
           <div class="gpio-guide-title-row">
-            <h3>GPIO Guide</h3>
+            <h3>Справка по GPIO</h3>
             <span class="gpio-guide-title">{{ titleText }}</span>
           </div>
-          <p class="gpio-guide-sub">Quick reference for the selected microcontroller.</p>
+          <p class="gpio-guide-sub">Справочная информация по выбранному микроконтроллеру.</p>
         </div>
-        <button type="button" class="secondary compact" @click="handleClose">Close</button>
+        <button type="button" class="secondary compact" @click="handleClose">Закрыть</button>
       </header>
 
       <div class="gpio-guide-tabs">
@@ -18,20 +18,20 @@
           :class="{ active: activeTab === 'table' }"
           @click="activeTab = 'table'"
         >
-          Table
+          Таблица
         </button>
         <button
           type="button"
           :class="{ active: activeTab === 'notes' }"
           @click="activeTab = 'notes'"
         >
-          Notes
+          Примечания
         </button>
       </div>
 
       <div class="gpio-guide-body">
         <div v-if="!guide" class="gpio-guide-empty">
-          No GPIO data available for this variant.
+          Для данной модели нет доступных данных GPIO.
         </div>
         <template v-else>
           <div v-if="activeTab === 'table'" class="gpio-guide-table-wrap">
@@ -39,9 +39,9 @@
               <thead>
                 <tr>
                   <th>GPIO</th>
-                  <th>Input</th>
-                  <th>Output</th>
-                  <th>Notes</th>
+                  <th>Вход</th>
+                  <th>Выход</th>
+                  <th>Примечания</th>
                 </tr>
               </thead>
               <tbody>

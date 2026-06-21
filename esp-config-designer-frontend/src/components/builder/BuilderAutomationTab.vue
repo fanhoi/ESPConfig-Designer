@@ -2,14 +2,14 @@
   <div class="module-card">
     <div class="components-header">
       <div class="components-title">
-        <h2>Automation</h2>
+        <h2>Автоматизация</h2>
         <a
           v-if="activeTabHelpUrl"
           class="filter-help"
           :href="activeTabHelpUrl"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Documentation"
+          aria-label="Документация"
         >
           ?
         </a>
@@ -58,7 +58,7 @@
           :key="`generated-${activeAutomationKey}-${index}`"
           class="schema-list list-normal read-only-box"
         >
-          <div class="schema-list-header">Auto-generated (read-only)</div>
+          <div class="schema-list-header">Автогенерация (только для чтения)</div>
           <div class="schema-list-item">
             <div
               v-for="(line, lineIndex) in generatedEntryLines(entry)"

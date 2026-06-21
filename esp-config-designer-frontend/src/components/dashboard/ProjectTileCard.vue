@@ -26,13 +26,13 @@
         v-if="showMenu"
         type="button"
         class="project-card__menu"
-        aria-label="Project actions"
+        aria-label="Действия с проектом"
         @click.stop="handleMenu"
       >
         ...
       </button>
 
-      <span v-if="online" class="project-status-badge project-status-badge--tile is-online">Online</span>
+      <span v-if="online" class="project-status-badge project-status-badge--tile is-online">В сети</span>
     </div>
 
     <p class="project-card__meta" :class="{ 'project-card__meta--with-menu': showMenu }">

@@ -59,12 +59,12 @@
         <div class="sidebar-top">
           <button type="button" class="btn-standard secondary sidebar-back-button" @click="handleBackToDashboard">
             <span class="sidebar-back-button-icon" aria-hidden="true"></span>
-            <span>Back to Dashboard</span>
+            <span>Назад на Панель управления</span>
           </button>
 
           <section class="sidebar-panel sidebar-panel--project" aria-label="Current project">
             <div class="sidebar-panel__header">
-              <h4>Project</h4>
+              <h4>Проект</h4>
               <span class="project-status-badge" :class="builderDeviceStatusClass">
                 {{ builderDeviceStatusLabel }}
               </span>
@@ -96,7 +96,7 @@
         <div class="sidebar-middle">
           <div class="sidebar-panel sidebar-panel--components">
             <div class="sidebar-panel__header">
-              <h4>Components</h4>
+              <h4>Компоненты</h4>
             </div>
             <div class="sidebar-panel__body">
               <div class="sidebar-components">
@@ -115,19 +115,19 @@
                     <span>{{ tab }}</span>
                   </button>
                   <button class="component-chip" type="button" @click="openAssetManagerFromSidebar">
-                    <span>Assets</span>
+                    <span>Ресурсы</span>
                   </button>
                   <div class="component-separator-line"></div>
                   <div class="component-separator">
                     <div class="component-separator__row">
-                      <span>User components</span>
+                      <span>Пользовательские компоненты</span>
                       <button
                         class="secondary compact btn-add sidebar-components-add"
                         type="button"
                         aria-label="Add component"
                         @click="addComponentSlot"
                       >
-                        Add
+                        Добавить
                       </button>
                     </div>
                   </div>
@@ -161,8 +161,8 @@
               v-model="previewMode"
               @change="handleSelectBlur"
             >
-              <option value="single">Single YAML Preview</option>
-              <option value="tabs">Tabbed YAML Preview</option>
+              <option value="single">Один файл предпросмотра</option>
+              <option value="tabs">Предпросмотр по вкладкам</option>
             </select>
           </div>
           <BuilderPreviewPane
@@ -184,9 +184,9 @@
               v-model="activeModeLevel"
               @change="handleSelectBlur"
             >
-              <option value="Simple">Simple configuration</option>
-              <option value="Normal">Normal configuration</option>
-              <option value="Advanced">Advanced configuration</option>
+              <option value="Simple">Базовая настройка (Simple)</option>
+              <option value="Normal">Обычная настройка (Normal)</option>
+              <option value="Advanced">Расширенная настройка (Advanced)</option>
             </select>
           </div>
           <div class="config-scroll">
@@ -398,7 +398,7 @@
                 :disabled="isComponentsImporting"
                 @click="openComponentsZipPicker"
               >
-                {{ isComponentsImporting ? "Uploading..." : "Upload Components" }}
+                {{ isComponentsImporting ? "Загрузка..." : "Загрузить компоненты" }}
               </button>
               <button
                 v-if="!isComponentPickerOpen && activeComponentSlot !== null"
@@ -406,7 +406,7 @@
                 class="secondary compact btn-standard"
                 @click="requestRemoveComponent(activeComponentSlot)"
               >
-                Remove
+                Удалить
               </button>
               <input
                 ref="componentsZipInput"
@@ -585,8 +585,8 @@ const nextModeLevelByMode = {
   Advanced: "Advanced"
 };
 const modeUpgradeButtonLabelByMode = {
-  Simple: "Show Normal configuration",
-  Normal: "Show Advanced configuration"
+  Simple: "Показать обычную настройку (Normal)",
+  Normal: "Показать расширенную настройку (Advanced)"
 };
 const modeUpgradeAvailability = ref({});
 const isProjectSaving = ref(false);
@@ -748,7 +748,7 @@ const buildIdRefErrors = (entries, idIndex) => {
       entry?.scopeId || ""
     );
     if (!options.length) {
-      pushError(entry, path, "No matching identifiers available");
+      pushError(entry, path, "Нет подходящих идентификаторов");
       return;
     }
     if (!value || typeof value !== "string") {
@@ -756,7 +756,7 @@ const buildIdRefErrors = (entries, idIndex) => {
     }
     const match = options.some((option) => option.toLowerCase() === value.toLowerCase());
     if (!match) {
-      pushError(entry, path, "No matching identifiers available");
+      pushError(entry, path, "Нет подходящих идентификаторов");
     }
   };
 
@@ -825,15 +825,15 @@ const buildDisplayElementIdErrors = (
 
   const checkIdSelection = (value, options, entry, path, message) => {
     if (!options.length) {
-      pushError(entry, path, "No matching identifiers available");
+      pushError(entry, path, "Нет подходящих идентификаторов");
       return;
     }
     if (!value || !String(value).trim()) {
-      pushError(entry, path, message || "Please select an ID");
+      pushError(entry, path, message || "Пожалуйста, выберите ID");
       return;
     }
     if (!hasOptionMatch(value, options)) {
-      pushError(entry, path, "No matching identifiers available");
+      pushError(entry, path, "Нет подходящих идентификаторов");
     }
   };
 
@@ -853,17 +853,17 @@ const buildDisplayElementIdErrors = (
 
   const checkIconSelection = (value, icons, entry, path) => {
     if (!icons.length) {
-      pushError(entry, path, "No MDI icons available");
+      pushError(entry, path, "Нет доступных иконок MDI");
       return;
     }
     const name = String(value || "").trim();
     const trimmed = name.startsWith("mdi:") ? name.slice(4) : name;
     if (!trimmed) {
-      pushError(entry, path, "Please select an icon");
+      pushError(entry, path, "Пожалуйста, выберите иконку");
       return;
     }
     if (!icons.some((icon) => icon.toLowerCase() === trimmed.toLowerCase())) {
-      pushError(entry, path, "Invalid MDI icon name");
+      pushError(entry, path, "Неверное имя иконки MDI");
     }
   };
 
@@ -885,36 +885,36 @@ const buildDisplayElementIdErrors = (
           false,
           contextScopeId
         );
-        checkIdSelection(element?.dynamicId, options, entry, [...basePath, "dynamicId"], "Please select a source ID");
+        checkIdSelection(element?.dynamicId, options, entry, [...basePath, "dynamicId"], "Пожалуйста, выберите ID источника");
       }
 
       if (element?.type === "graph") {
         if (!String(element?.graphId || "").trim()) {
-          pushError(entry, [...basePath, "graphId"], "Please provide a graph ID");
+          pushError(entry, [...basePath, "graphId"], "Пожалуйста, укажите ID графика");
         }
         if (element?.useTraces) {
           const traces = Array.isArray(element?.traces) ? element.traces : [];
           traces.forEach((trace, traceIndex) => {
             const options = buildIdOptions(idIndex, "sensor", contextComponentId, false, contextScopeId);
-            checkIdSelection(trace?.sensor, options, entry, [...basePath, "traces", String(traceIndex), "sensor"], "Please select a sensor ID");
+            checkIdSelection(trace?.sensor, options, entry, [...basePath, "traces", String(traceIndex), "sensor"], "Пожалуйста, выберите ID сенсора");
           });
         } else {
           const options = buildIdOptions(idIndex, "sensor", contextComponentId, false, contextScopeId);
-          checkIdSelection(element?.sensor, options, entry, [...basePath, "sensor"], "Please select a sensor ID");
+          checkIdSelection(element?.sensor, options, entry, [...basePath, "sensor"], "Пожалуйста, выберите ID сенсора");
         }
       }
 
       if (element?.type === "animation") {
         if (!String(element?.animationId || "").trim()) {
-          pushError(entry, [...basePath, "animationId"], "Please provide an animation ID");
+          pushError(entry, [...basePath, "animationId"], "Пожалуйста, укажите ID анимации");
         }
         checkFileSelection(
           element?.animationFile,
           animationFiles || [],
           entry,
           [...basePath, "animationFile"],
-          "No GIF animations available",
-          "Please select an animation file"
+          "Нет доступных GIF-анимаций",
+          "Пожалуйста, выберите файл анимации"
         );
       }
 
@@ -924,8 +924,8 @@ const buildDisplayElementIdErrors = (
           imageFiles || [],
           entry,
           [...basePath, "image"],
-          "No image files available",
-          "Please select an image file"
+          "Нет доступных изображений",
+          "Пожалуйста, выберите файл изображения"
         );
       }
 
@@ -975,7 +975,7 @@ const buildValidationErrors = (entries) => {
     if (field?.type === "password" && field?.settings?.format === "base64_44") {
       const content = typeof value === "string" ? value.trim() : "";
       if (!/^[A-Za-z0-9+/]{43}=$/.test(content)) {
-        pushError(entry, path, "Key must be base64 (44 chars, ending with =).");
+        pushError(entry, path, "Ключ должен быть в формате base64 (44 символа, заканчивающихся на =).");
       }
     }
   };
@@ -1064,21 +1064,21 @@ const buildValidationErrors = (entries) => {
         pushError(
           entry,
           ["mac_address"],
-          "Set exactly one identity: mac_address, irk, service_uuid or ibeacon_uuid."
+          "Укажите ровно один идентификатор: mac_address, irk, service_uuid или ibeacon_uuid."
         );
       }
 
       if (hasText(config.mac_address) && !isMacAddress(config.mac_address)) {
-        pushError(entry, ["mac_address"], "MAC address must use format AA:BB:CC:DD:EE:FF.");
+        pushError(entry, ["mac_address"], "MAC-адрес должен быть в формате AA:BB:CC:DD:EE:FF.");
       }
       if (hasText(config.irk) && !isHex32(config.irk)) {
-        pushError(entry, ["irk"], "IRK must be a 32-character hexadecimal string.");
+        pushError(entry, ["irk"], "IRK должен быть 32-символьной шестнадцатеричной строкой.");
       }
       if (hasText(config.service_uuid) && !isBleUuid(config.service_uuid)) {
-        pushError(entry, ["service_uuid"], "Service UUID must be 16-bit, 32-bit, or 128-bit UUID.");
+        pushError(entry, ["service_uuid"], "Service UUID должен быть 16-битным, 32-битным или 128-битным UUID.");
       }
       if (hasText(config.ibeacon_uuid) && !isUuid128(config.ibeacon_uuid)) {
-        pushError(entry, ["ibeacon_uuid"], "iBeacon UUID must be a 128-bit UUID.");
+        pushError(entry, ["ibeacon_uuid"], "iBeacon UUID должен быть 128-битным UUID.");
       }
       if (config.ibeacon_major !== undefined && config.ibeacon_major !== "" && !isIntegerLike(config.ibeacon_major)) {
         pushError(entry, ["ibeacon_major"], "iBeacon major must be an integer.");
@@ -1095,46 +1095,46 @@ const buildValidationErrors = (entries) => {
 
       if (isCharacteristic) {
         if (!hasText(config.service_uuid)) {
-          pushError(entry, ["service_uuid"], "Service UUID is required for characteristic type.");
+          pushError(entry, ["service_uuid"], "Service UUID требуется для типа characteristic.");
         }
         if (!hasText(config.characteristic_uuid)) {
           pushError(
             entry,
             ["characteristic_uuid"],
-            "Characteristic UUID is required for characteristic type."
+            "Characteristic UUID требуется для типа characteristic."
           );
         }
       }
 
       if (hasText(config.service_uuid) && !isBleUuid(config.service_uuid)) {
-        pushError(entry, ["service_uuid"], "Service UUID must be 16-bit, 32-bit, or 128-bit UUID.");
+        pushError(entry, ["service_uuid"], "Service UUID должен быть 16-битным, 32-битным или 128-битным UUID.");
       }
       if (hasText(config.characteristic_uuid) && !isBleUuid(config.characteristic_uuid)) {
         pushError(
           entry,
           ["characteristic_uuid"],
-          "Characteristic UUID must be 16-bit, 32-bit, or 128-bit UUID."
+          "Characteristic UUID должен быть 16-битным, 32-битным или 128-битным UUID."
         );
       }
       if (hasText(config.descriptor_uuid) && !isBleUuid(config.descriptor_uuid)) {
         pushError(
           entry,
           ["descriptor_uuid"],
-          "Descriptor UUID must be 16-bit, 32-bit, or 128-bit UUID."
+          "Descriptor UUID должен быть 16-битным, 32-битным или 128-битным UUID."
         );
       }
       if (config.on_notify && config.notify !== true) {
-        pushError(entry, ["on_notify"], "Enable notify=true to use on_notify automation.");
+        pushError(entry, ["on_notify"], "Включите notify=true, чтобы использовать автоматизацию on_notify.");
       }
     }
 
     if (entry.componentId === "sensor/xiaomi_ble") {
       const config = entry.config || {};
       if (hasText(config.mac_address) && !isMacAddress(config.mac_address)) {
-        pushError(entry, ["mac_address"], "MAC address must use format AA:BB:CC:DD:EE:FF.");
+        pushError(entry, ["mac_address"], "MAC-адрес должен быть в формате AA:BB:CC:DD:EE:FF.");
       }
       if (hasText(config.bindkey) && !isHex32(config.bindkey)) {
-        pushError(entry, ["bindkey"], "Bindkey must be a 32-character hexadecimal string.");
+        pushError(entry, ["bindkey"], "Bindkey должен быть 32-символьной шестнадцатеричной строкой.");
       }
     }
 
@@ -1147,23 +1147,23 @@ const buildValidationErrors = (entries) => {
       const hasTransform = hasTruthyObjectValue(config.transform);
 
       if (config.rotation !== undefined && config.rotation !== "" && config.rotation !== "0" && hasTransform) {
-        pushError(entry, ["transform"], "Use either rotation or transform, not both.");
+        pushError(entry, ["transform"], "Используйте либо rotation (поворот), либо transform (преобразование), но не оба одновременно.");
       }
 
       if (hasText(config.color_palette_images) && config.color_palette !== "IMAGE_ADAPTIVE") {
         pushError(
           entry,
           ["color_palette_images"],
-          "color_palette_images is only valid when color_palette is IMAGE_ADAPTIVE."
+          "color_palette_images допустим только тогда, когда color_palette установлен в IMAGE_ADAPTIVE."
         );
       }
 
       if (model === "CUSTOM") {
         if (!hasDimensionsWidth || !hasDimensionsHeight) {
-          pushError(entry, ["dimensions"], "Custom model requires dimensions.width and dimensions.height.");
+          pushError(entry, ["dimensions"], "Кастомная модель требует dimensions.width и dimensions.height.");
         }
         if (!hasText(config.init_sequence)) {
-          pushError(entry, ["init_sequence"], "Custom model requires init_sequence.");
+          pushError(entry, ["init_sequence"], "Кастомная модель требует init_sequence.");
         }
       }
 
@@ -1178,7 +1178,7 @@ const buildValidationErrors = (entries) => {
       const hasHeight = Number.isFinite(height) && height > 0;
 
       if (model === "Custom" && (!hasWidth || !hasHeight)) {
-        pushError(entry, ["width"], "Custom model requires positive width and height values.");
+        pushError(entry, ["width"], "Кастомная модель требует положительных значений ширины и высоты.");
       }
     }
 
@@ -1191,15 +1191,15 @@ const buildValidationErrors = (entries) => {
       const hasTransform = hasTruthyObjectValue(config.transform);
 
       if (config.rotation !== undefined && config.rotation !== "" && config.rotation !== "0" && hasTransform) {
-        pushError(entry, ["transform"], "Use either rotation or transform, not both.");
+        pushError(entry, ["transform"], "Используйте либо rotation (поворот), либо transform (преобразование), но не оба одновременно.");
       }
 
       if (!hasWidth || !hasHeight) {
-        pushError(entry, ["dimensions"], "Dimensions.width and dimensions.height are required.");
+        pushError(entry, ["dimensions"], "Dimensions.width и dimensions.height обязательны для заполнения.");
       }
 
       if (model === "CUSTOM" && !hasText(config.init_sequence)) {
-        pushError(entry, ["init_sequence"], "Custom model requires init_sequence.");
+        pushError(entry, ["init_sequence"], "Кастомная модель требует init_sequence.");
       }
     }
 
@@ -1218,39 +1218,39 @@ const buildValidationErrors = (entries) => {
       const agcValue = parseNumberLike(config.agc_value);
 
       if (!Array.isArray(dataPins) || dataPins.filter((value) => value !== undefined && value !== null && String(value).trim() !== "").length !== 8) {
-        pushError(entry, ["data_pins"], "ESP32 Camera requires exactly 8 data pins.");
+        pushError(entry, ["data_pins"], "ESP32 Camera требует ровно 8 контактов данных (data_pins).");
       }
       if (frameBufferLocation === "PSRAM" && !isSystemPsramEnabled) {
-        pushError(entry, ["frame_buffer_location"], "PSRAM frame buffers require System > PSRAM to be enabled.");
+        pushError(entry, ["frame_buffer_location"], "Буферы кадров в PSRAM требуют включения System > PSRAM.");
       }
       if (config.external_clock?.frequency !== undefined && Number.isNaN(externalClockFrequency)) {
-        pushError(entry, ["external_clock", "frequency"], "External clock frequency must use format 8MHz to 20MHz.");
+        pushError(entry, ["external_clock", "frequency"], "Частота внешнего тактового сигнала должна быть в формате от 8MHz до 20MHz.");
       } else if (!Number.isNaN(externalClockFrequency) && (externalClockFrequency < 8 || externalClockFrequency > 20)) {
-        pushError(entry, ["external_clock", "frequency"], "External clock frequency must be between 8MHz and 20MHz.");
+        pushError(entry, ["external_clock", "frequency"], "Частота внешнего тактового сигнала должна быть между 8MHz и 20MHz.");
       }
       if (!Number.isNaN(jpegQuality) && jpegQuality !== 0 && (jpegQuality < 6 || jpegQuality > 63)) {
-        pushError(entry, ["jpeg_quality"], "JPEG quality must be 0 or between 6 and 63.");
+        pushError(entry, ["jpeg_quality"], "Качество JPEG должно быть 0 или от 6 до 63.");
       }
       if (!Number.isNaN(frameBufferCount) && ![1, 2].includes(frameBufferCount)) {
-        pushError(entry, ["frame_buffer_count"], "Frame buffer count must be 1 or 2.");
+        pushError(entry, ["frame_buffer_count"], "Количество буферов кадров должно быть 1 или 2.");
       }
       if (!Number.isNaN(contrast) && (contrast < -2 || contrast > 2)) {
-        pushError(entry, ["contrast"], "Contrast must be between -2 and 2.");
+        pushError(entry, ["contrast"], "Контраст должен быть между -2 и 2.");
       }
       if (!Number.isNaN(brightness) && (brightness < -2 || brightness > 2)) {
-        pushError(entry, ["brightness"], "Brightness must be between -2 and 2.");
+        pushError(entry, ["brightness"], "Яркость должна быть между -2 и 2.");
       }
       if (!Number.isNaN(saturation) && (saturation < -2 || saturation > 2)) {
-        pushError(entry, ["saturation"], "Saturation must be between -2 and 2.");
+        pushError(entry, ["saturation"], "Насыщенность должна быть между -2 и 2.");
       }
       if (!Number.isNaN(aeLevel) && (aeLevel < -2 || aeLevel > 2)) {
-        pushError(entry, ["ae_level"], "AE level must be between -2 and 2.");
+        pushError(entry, ["ae_level"], "Уровень автоэкспозиции (AE level) должен быть между -2 и 2.");
       }
       if (!Number.isNaN(aecValue) && (aecValue < 0 || aecValue > 1200)) {
-        pushError(entry, ["aec_value"], "AEC value must be between 0 and 1200.");
+        pushError(entry, ["aec_value"], "Значение AEC должно быть между 0 и 1200.");
       }
       if (!Number.isNaN(agcValue) && (agcValue < 0 || agcValue > 30)) {
-        pushError(entry, ["agc_value"], "AGC value must be between 0 and 30.");
+        pushError(entry, ["agc_value"], "Значение AGC должно быть между 0 и 30.");
       }
     }
   });
@@ -1258,7 +1258,7 @@ const buildValidationErrors = (entries) => {
   rootMapEntriesByDomain.forEach((domainEntries, domain) => {
     if (domainEntries.length < 2) return;
     domainEntries.forEach((entry) => {
-      pushError(entry, [], `Only one root-map component can emit domain '${domain}'.`);
+      pushError(entry, [], `Только один компонент типа root-map может генерировать домен '${domain}'.`);
     });
   });
 
@@ -1383,14 +1383,14 @@ const buildDuplicateErrors = (entries, idCounts, nameCounts) => {
       if (field.type === "id" && typeof value === "string" && value.trim()) {
         const key = value.toLowerCase();
         if ((idCounts[key] || 0) > 1) {
-          pushError(entry, nextPath, "ID already used");
+          pushError(entry, nextPath, "ID уже используется");
         }
       }
 
       if (field.key === "name" && typeof value === "string" && value.trim()) {
         const key = value.toLowerCase();
         if ((nameCounts[key] || 0) > 1) {
-          pushError(entry, nextPath, "Name already used");
+          pushError(entry, nextPath, "Имя уже используется");
         }
       }
 
@@ -1537,8 +1537,8 @@ const componentPickerNotices = computed(() => {
     notices.push({
       id: "components-pack",
       title: "Components Pack",
-      message: "Add more ready-to-use components to your library.",
-      actionLabel: "Get Pack",
+      message: "Добавьте больше готовых компонентов в вашу библиотеку.",
+      actionLabel: "Получить пак",
       href: "https://store.smartsolutions4home.com/product/components-pack-for-ecd/",
       icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/puzzle.svg"
     });
@@ -1547,9 +1547,9 @@ const componentPickerNotices = computed(() => {
 });
 
 const componentsHeader = computed(() => {
-  if (activeComponentSlot.value === null) return "Components";
+  if (activeComponentSlot.value === null) return "Компоненты";
   const entry = config.value.components[activeComponentSlot.value];
-  return entry ? componentEntryLabel(entry) : "Add";
+  return entry ? componentEntryLabel(entry) : "Добавить";
 });
 
 const projectFilename = computed(() => {
@@ -1580,7 +1580,7 @@ const projectSummaryComment = computed(() => {
 const projectSummaryPlatform = computed(() => {
   const platform = String(platformCoreConfig.value?.platform || "").trim().toUpperCase();
   const variant = String(platformCoreConfig.value?.variant || "").trim().toUpperCase();
-  if (!platform) return "Unknown";
+  if (!platform) return "Неизвестно";
   if (!variant || variant === platform) return platform;
   return `${platform} (${variant})`;
 });
@@ -1603,19 +1603,19 @@ const parseComponentId = (componentId) => {
 };
 
 const confirmTitle = computed(() =>
-  confirmAction.value === "delete-custom" ? "Delete saved component" : "Confirm"
+  confirmAction.value === "delete-custom" ? "Удалить сохраненный компонент" : "Подтверждение"
 );
 const confirmMessage = computed(() => {
   if (confirmAction.value === "delete-custom") {
-    const name = pendingDeleteCustomItem.value?.name || "this component";
-    return `Are you sure you want to delete \"${name}\"?`;
+    const name = pendingDeleteCustomItem.value?.name || "этот компонент";
+    return `Вы уверены, что хотите удалить \"${name}\"?`;
   }
-  return "Are you sure?";
+  return "Вы уверены?";
 });
 const confirmConfirmText = computed(() =>
-  confirmAction.value === "delete-custom" ? "Delete" : "Yes"
+  confirmAction.value === "delete-custom" ? "Удалить" : "Да"
 );
-const confirmCancelText = computed(() => "Cancel");
+const confirmCancelText = computed(() => "Отмена");
 
 const schemaHelpUrl = (schema) => {
   const url = schema?.helpUrl;
@@ -1693,7 +1693,7 @@ const showSaveCustomComponentAction = computed(
     activeComponentSchema.value?.renderStrategy === "verbatim_root"
 );
 const customComponentActionLabel = computed(() =>
-  isSavedCustomComponentActive.value ? "Update Component" : "Save Component"
+  isSavedCustomComponentActive.value ? "Обновить компонент" : "Сохранить компонент"
 );
 const activeCustomComponentName = computed(() => {
   const value = activeComponentConfig.value?.name;
@@ -1723,7 +1723,7 @@ const isActiveCustomNameDuplicate = computed(() => {
 const activeComponentFieldErrors = computed(() => {
   if (!showSaveCustomComponentAction.value) return {};
   if (!isActiveCustomNameDuplicate.value) return {};
-  return { name: "Component name already exists" };
+  return { name: "Компонент с таким именем уже существует" };
 });
 const canSaveCustomComponent = computed(() => {
   if (!showSaveCustomComponentAction.value) return false;
@@ -3899,7 +3899,7 @@ const refreshAssets = async (refresh = false, validateProject = false) => {
       validateCurrentProjectAssetReferences();
     }
   } catch (error) {
-    assetsError.value = error instanceof Error ? error.message : "Assets load failed";
+    assetsError.value = error instanceof Error ? error.message : "Ошибка загрузки ресурсов";
     displayImages.value = [];
     displayFonts.value = [];
     displayAudio.value = [];
@@ -3937,12 +3937,12 @@ const loadSecretsRaw = async () => {
   try {
     const response = await addonFetch("api/secrets/raw");
     if (!response.ok) {
-      throw new Error(await readApiError(response, `Secrets load failed (${response.status})`));
+      throw new Error(await readApiError(response, `Ошибка загрузки секретов (${response.status})`));
     }
     const payload = await response.json();
     secretsRawContent.value = typeof payload?.content === "string" ? payload.content : "";
   } catch (error) {
-    secretsError.value = error instanceof Error ? error.message : "Secrets load failed";
+    secretsError.value = error instanceof Error ? error.message : "Ошибка загрузки секретов";
     secretsRawContent.value = "";
   } finally {
     secretsLoading.value = false;
@@ -3972,11 +3972,11 @@ const handleSecretsSave = async (content) => {
       body: JSON.stringify({ content: typeof content === "string" ? content : "" })
     });
     if (!response.ok) {
-      throw new Error(await readApiError(response, `Secrets save failed (${response.status})`));
+      throw new Error(await readApiError(response, `Ошибка сохранения секретов (${response.status})`));
     }
     secretsRawContent.value = typeof content === "string" ? content : "";
   } catch (error) {
-    secretsError.value = error instanceof Error ? error.message : "Secrets save failed";
+    secretsError.value = error instanceof Error ? error.message : "Ошибка сохранения секретов";
   } finally {
     secretsSaving.value = false;
   }
@@ -3987,7 +3987,7 @@ const handleAssetUpload = async ({ kind, file }) => {
     ? String(kind).toLowerCase()
     : "";
   if (!normalizedKind || !file) {
-    assetsError.value = "Invalid kind";
+    assetsError.value = "Неверный тип";
     return;
   }
   assetsError.value = "";
@@ -3996,7 +3996,7 @@ const handleAssetUpload = async ({ kind, file }) => {
     await uploadAsset(addonFetch, { kind: normalizedKind, file });
     await refreshAssets(true, true);
   } catch (error) {
-    assetsError.value = error instanceof Error ? error.message : "Asset upload failed";
+    assetsError.value = error instanceof Error ? error.message : "Ошибка загрузки ресурса";
   } finally {
     assetsWorking.value = false;
   }
@@ -4007,7 +4007,7 @@ const handleAssetRename = async ({ kind, from, to }) => {
     ? String(kind).toLowerCase()
     : "";
   if (!normalizedKind) {
-    assetsError.value = "Invalid kind";
+    assetsError.value = "Неверный тип";
     return;
   }
   assetsError.value = "";
@@ -4016,7 +4016,7 @@ const handleAssetRename = async ({ kind, from, to }) => {
     await renameAsset(addonFetch, { kind: normalizedKind, from, to });
     await refreshAssets(true, true);
   } catch (error) {
-    assetsError.value = error instanceof Error ? error.message : "Asset rename failed";
+    assetsError.value = error instanceof Error ? error.message : "Ошибка переименования ресурса";
   } finally {
     assetsWorking.value = false;
   }
@@ -4027,7 +4027,7 @@ const handleAssetDelete = async ({ kind, file }) => {
     ? String(kind).toLowerCase()
     : "";
   if (!normalizedKind) {
-    assetsError.value = "Invalid kind";
+    assetsError.value = "Неверный тип";
     return;
   }
   assetsError.value = "";
@@ -4036,7 +4036,7 @@ const handleAssetDelete = async ({ kind, file }) => {
     await deleteAsset(addonFetch, { kind: normalizedKind, file });
     await refreshAssets(true, true);
   } catch (error) {
-    assetsError.value = error instanceof Error ? error.message : "Asset delete failed";
+    assetsError.value = error instanceof Error ? error.message : "Ошибка удаления ресурса";
   } finally {
     assetsWorking.value = false;
   }
@@ -4172,7 +4172,7 @@ const registerDeploymentIdentity = async (identity) => {
     })
   });
   if (!response.ok) {
-    throw new Error(await parseDeploymentResponseMessage(response, "Device registration failed"));
+    throw new Error(await parseDeploymentResponseMessage(response, "Ошибка регистрации устройства"));
   }
 };
 
@@ -4183,7 +4183,7 @@ const unregisterDeviceByKey = async (deviceKey) => {
     method: "DELETE"
   });
   if (!response.ok) {
-    throw new Error(await parseDeploymentResponseMessage(response, "Device unregister failed"));
+    throw new Error(await parseDeploymentResponseMessage(response, "Ошибка отмены регистрации устройства"));
   }
 };
 
@@ -4212,12 +4212,12 @@ const resolveCurrentProjectJsonName = (yamlName = "") => {
 const loadProjectDataForDeployment = async (projectJsonName) => {
   const response = await addonFetch(`projects/load?name=${encodeURIComponent(projectJsonName)}`);
   if (!response.ok) {
-    throw new Error(await parseDeploymentResponseMessage(response, "Failed to load project"));
+    throw new Error(await parseDeploymentResponseMessage(response, "Не удалось загрузить проект"));
   }
   const payload = await response.json();
   const data = payload?.data;
   if (!data || typeof data !== "object") {
-    throw new Error("Invalid project payload");
+    throw new Error("Неверные данные проекта");
   }
   return JSON.parse(JSON.stringify(data));
 };
@@ -4234,7 +4234,7 @@ const saveProjectDataForDeployment = async (projectJsonName, data) => {
     })
   });
   if (!response.ok) {
-    throw new Error(await parseDeploymentResponseMessage(response, "Failed to persist deployment state"));
+    throw new Error(await parseDeploymentResponseMessage(response, "Не удалось сохранить состояние развертывания"));
   }
 };
 
@@ -4252,7 +4252,7 @@ const applyLocalDeploymentState = (nextState) => {
 const persistCurrentProjectDeploymentState = async (nextState, yamlName = "") => {
   const projectJsonName = resolveCurrentProjectJsonName(yamlName);
   if (!projectJsonName) {
-    throw new Error("Invalid project name for deployment state");
+    throw new Error("Недопустимое имя проекта для состояния развертывания");
   }
   const data = await loadProjectDataForDeployment(projectJsonName);
   writeProjectDeploymentState(data, nextState);
@@ -4474,8 +4474,8 @@ const canLogsForCurrentDevice = computed(
   () => projectDeviceStatus.value === "online"
 );
 const builderDeviceStatusLabel = computed(() => {
-  if (projectDeviceStatus.value === "online") return "Online";
-  return "Offline";
+  if (projectDeviceStatus.value === "online") return "В сети";
+  return "Не в сети";
 });
 const builderDeviceStatusClass = computed(() => {
   if (projectDeviceStatus.value === "online") return "is-online";
@@ -4500,7 +4500,7 @@ const installFlow = useInstallConsoleFlow({
   prepareBeforeJob: async () => {
     const saved = await handleProjectSave(true);
     if (!saved) {
-      throw new Error(projectSaveError.value || "Project save failed before install");
+      throw new Error(projectSaveError.value || "Ошибка сохранения проекта перед установкой");
     }
     return true;
   },
@@ -4604,11 +4604,11 @@ const handleBuilderSaveRequest = async (event) => {
   try {
     success = await handleProjectSave(true);
     if (!success) {
-      message = projectSaveError.value || "Project save failed.";
+      message = projectSaveError.value || "Ошибка сохранения проекта.";
     }
   } catch (error) {
     success = false;
-    message = error instanceof Error ? error.message : "Project save failed.";
+    message = error instanceof Error ? error.message : "Ошибка сохранения проекта.";
   }
 
   window.dispatchEvent(
@@ -4833,7 +4833,7 @@ const saveCurrentYamlFile = async () => {
     })
   });
   if (!saveYamlResponse.ok) {
-    throw new Error(await parseResponseMessage(saveYamlResponse, "Failed to save YAML"));
+    throw new Error(await parseResponseMessage(saveYamlResponse, "Не удалось сохранить YAML"));
   }
 };
 
@@ -4860,7 +4860,7 @@ const renameProjectBundleIfNeeded = async (fromProjectName, toProjectName) => {
     })
   });
   if (!response.ok) {
-    throw new Error(await parseResponseMessage(response, "Failed to rename project bundle"));
+    throw new Error(await parseResponseMessage(response, "Не удалось переименовать пакет проекта"));
   }
 };
 
@@ -4897,7 +4897,7 @@ const saveCurrentProjectAndYaml = async (silent = false) => {
     })
   });
   if (!saveProjectResponse.ok) {
-    throw new Error(await parseResponseMessage(saveProjectResponse, "Failed to save project JSON"));
+    throw new Error(await parseResponseMessage(saveProjectResponse, "Не удалось сохранить JSON проекта"));
   }
 
   let projectsIndex = createDefaultProjectsIndex();
@@ -4912,7 +4912,7 @@ const saveCurrentProjectAndYaml = async (silent = false) => {
       projectsIndex = createDefaultProjectsIndex();
     }
   } else if (loadProjectsIndexResponse.status !== 404) {
-    throw new Error(await parseResponseMessage(loadProjectsIndexResponse, "Failed to load projects index"));
+    throw new Error(await parseResponseMessage(loadProjectsIndexResponse, "Не удалось загрузить индекс проектов"));
   }
 
   const nextProjectsIndex = upsertProjectInRoot(projectsIndex, projectJsonName, savedAt);
@@ -4927,7 +4927,7 @@ const saveCurrentProjectAndYaml = async (silent = false) => {
     })
   });
   if (!saveProjectsIndexResponse.ok) {
-    throw new Error(await parseResponseMessage(saveProjectsIndexResponse, "Failed to update projects.json"));
+    throw new Error(await parseResponseMessage(saveProjectsIndexResponse, "Не удалось обновить projects.json"));
   }
 
   markProjectSavedFromCurrentState();
@@ -4936,7 +4936,7 @@ const saveCurrentProjectAndYaml = async (silent = false) => {
   await refreshCurrentDeviceStatus();
   emitProjectsUpdated();
   if (!silent) {
-    projectSaveMessage.value = `Saved ${yamlName} and ${projectJsonName}.`;
+    projectSaveMessage.value = `Сохранены ${yamlName} и ${projectJsonName}.`;
   }
   return true;
 };
@@ -4947,7 +4947,7 @@ const handleProjectSave = async (silent = false) => {
   if (isProjectSaved.value) {
     if (!silent) {
       projectSaveError.value = "";
-      projectSaveMessage.value = `${projectFilename.value} is already saved.`;
+      projectSaveMessage.value = `${projectFilename.value} уже сохранен.`;
     }
     return true;
   }
@@ -4962,7 +4962,7 @@ const handleProjectSave = async (silent = false) => {
     await saveCurrentProjectAndYaml(silent);
     return true;
   } catch (error) {
-    projectSaveError.value = error instanceof Error ? error.message : "Unknown save error";
+    projectSaveError.value = error instanceof Error ? error.message : "Неизвестная ошибка сохранения";
     return false;
   } finally {
     isProjectSaving.value = false;
@@ -5335,7 +5335,7 @@ const saveCustomComponentTemplate = async () => {
     });
     const payload = await response.json().catch(() => null);
     if (!response.ok) {
-      throw new Error(toApiErrorMessage(payload, "Failed to save component"));
+      throw new Error(toApiErrorMessage(payload, "Не удалось сохранить компонент"));
     }
     const savedItem = payload?.item && typeof payload.item === "object" ? payload.item : null;
     const savedId = typeof savedItem?.id === "string" ? savedItem.id.trim() : "";
@@ -5358,7 +5358,7 @@ const saveCustomComponentTemplate = async () => {
     }
   } catch (error) {
     customComponentSaveError.value =
-      error instanceof Error ? error.message : "Failed to save component";
+      error instanceof Error ? error.message : "Не удалось сохранить компонент";
   } finally {
     isSavingCustomComponent.value = false;
   }

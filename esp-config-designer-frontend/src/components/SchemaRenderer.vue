@@ -1,6 +1,6 @@
 <template>
   <div class="schema-renderer">
-    <div v-if="!componentId" class="note">Wybierz komponent z listy, aby go skonfigurowac.</div>
+    <div v-if="!componentId" class="note">Выберите компонент из списка, чтобы настроить его.</div>
     <div v-else-if="activeSchema" class="schema-levels">
       <template v-for="binding in sharedHubBindings" :key="`shared-hub-${binding.sourceKey}`">
         <div class="schema-field">
@@ -11,7 +11,7 @@
             @change="onSharedHubSelectionChange(binding, $event)"
           >
             <option v-if="resolveLocalSharedHubSelection(binding) === '__none__'" value="__none__" hidden>
-              Select shared hub
+              Выберите общий хаб
             </option>
             <option
               v-if="isLocalSharedHubSelectionMissing(binding)"
@@ -20,7 +20,7 @@
             >
               {{ resolveLocalSharedHubSelection(binding) }}
             </option>
-            <option value="__add_new__">ADD NEW</option>
+            <option value="__add_new__">ДОБАВИТЬ НОВЫЙ</option>
             <option
               v-for="option in binding.idOptions"
               :key="`${binding.sourceKey}-${option.idLower}`"
@@ -87,10 +87,10 @@
       />
     </div>
     <div v-else-if="isLoaded && !isLoading" class="missing-schema">
-      Schema missing for this component!
+      Схема для этого компонента отсутствует!
     </div>
     <div v-if="!activeSchema && componentId && isLoaded && !isLoading" class="schema-field missing-schema-field">
-      <label for="customConfigInput">custom config</label>
+      <label for="customConfigInput">пользовательская конфигурация</label>
       <textarea
         id="customConfigInput"
         :value="customConfig"
@@ -103,6 +103,7 @@
 </template>
 
 <script setup>
+// Компонент для рендеринга схем настроек и полей ввода на основе YAML/JSON схем компонентов
 import { computed, defineAsyncComponent, inject, onBeforeUnmount, ref, watch } from "vue";
 import SchemaField from "./SchemaField.vue";
 import { loadComponentSchema, loadSchemaByPath } from "../utils/schemaLoader";

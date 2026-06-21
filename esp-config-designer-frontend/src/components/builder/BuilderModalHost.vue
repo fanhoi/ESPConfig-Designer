@@ -50,7 +50,7 @@
     @close="emit('close-import-summary')"
   />
   <div v-if="projectSaveError" class="notice notice--error notice--block">
-    <strong>Project save failed.</strong>
+    <strong>Ошибка при сохранении проекта.</strong>
     <div>{{ projectSaveError }}</div>
   </div>
   <div v-else-if="projectSaveMessage" class="notice notice--warning notice--block">

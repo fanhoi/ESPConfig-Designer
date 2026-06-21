@@ -1,37 +1,38 @@
+<!-- Компонент инспектора для настройки свойств выбранного элемента дисплея -->
 <template>
   <aside class="display-inspector" :class="{ 'display-inspector--flat': variant === 'flat' }">
     <div v-if="showHeader" class="display-inspector__header">
-      <h4>Inspector</h4>
+      <h4>Инспектор</h4>
       <span v-if="selectedElement" class="display-inspector__type">{{ selectedElement.type }}</span>
     </div>
 
-    <div v-if="!selectedElement" class="note">Select an element on the canvas.</div>
+    <div v-if="!selectedElement" class="note">Выберите элемент на холсте.</div>
 
     <div v-else class="display-inspector__form">
       <template v-if="selectedElement.type === 'shape'">
         <div>
-          <label for="shapeType">Shape</label>
+          <label for="shapeType">Фигура</label>
           <select id="shapeType" :value="selectedElement.shapeType" @change="updateText('shapeType', $event)">
-            <option value="line">Line</option>
-            <option value="rect">Rectangle</option>
-            <option value="circle">Circle</option>
-            <option value="triangle">Triangle</option>
-            <option value="polygon5">Pentagon</option>
-            <option value="polygon6">Hexagon</option>
-            <option value="polygon7">Heptagon</option>
-            <option value="polygon8">Octagon</option>
+            <option value="line">Линия</option>
+            <option value="rect">Прямоугольник</option>
+            <option value="circle">Круг</option>
+            <option value="triangle">Треугольник</option>
+            <option value="polygon5">Пятиугольник</option>
+            <option value="polygon6">Шестиугольник</option>
+            <option value="polygon7">Семиугольник</option>
+            <option value="polygon8">Восьмиугольник</option>
           </select>
         </div>
 
         <div>
-          <label for="rotation">Rotation</label>
+          <label for="rotation">Поворот</label>
           <select id="rotation" :value="selectedElement.rotation" @change="updateNumber('rotation', $event)">
             <option v-for="option in rotationOptions" :key="option" :value="option">{{ option }}</option>
           </select>
         </div>
 
         <div v-if="selectedElement.shapeType !== 'line'">
-          <label for="filled">Filled</label>
+          <label for="filled">Заливка</label>
           <input
             id="filled"
             type="checkbox"
@@ -62,7 +63,7 @@
         </div>
 
         <div v-if="showColorPicker" class="display-icon-picker">
-          <label for="shapeColor">Color</label>
+          <label for="shapeColor">Цвет</label>
           <div class="schema-icon-row">
             <input
               id="shapeColor"
@@ -108,14 +109,14 @@
         </div>
 
         <div v-if="selectedElement.type === 'graph' && !selectedElement.useTraces">
-          <label for="graphSensor">Sensor ID *</label>
+          <label for="graphSensor">ID сенсора *</label>
           <select
             id="graphSensor"
             :value="selectedElement.sensor"
             :class="{ 'field-error': graphSensorRequiredError }"
             @change="updateText('sensor', $event)"
           >
-            <option value="">Select sensor</option>
+            <option value="">Выберите сенсор</option>
             <option v-for="entry in graphSensorOptions" :key="entry.id" :value="entry.id">
               {{ entry.label }}
             </option>
@@ -126,14 +127,14 @@
         </div>
 
         <div v-if="showRotation">
-          <label for="rotation">Rotation</label>
+          <label for="rotation">Поворот</label>
           <select id="rotation" :value="selectedElement.rotation" @change="updateNumber('rotation', $event)">
             <option v-for="option in rotationOptions" :key="option" :value="option">{{ option }}</option>
           </select>
         </div>
 
         <div v-if="selectedElement.type === 'text'">
-          <label for="textMode">Mode</label>
+          <label for="textMode">Режим</label>
           <select
             id="textMode"
             :value="selectedElement.textMode || 'static'"
@@ -146,7 +147,7 @@
         </div>
 
         <div v-if="selectedElement.type === 'text' && (selectedElement.textMode || 'static') === 'static'">
-          <label for="textValue">Text</label>
+          <label for="textValue">Текст</label>
           <input
             id="textValue"
             type="text"
@@ -156,14 +157,14 @@
         </div>
 
         <div v-if="selectedElement.type === 'text' && (selectedElement.textMode || 'static') === 'dynamic'">
-          <label for="dynamicId">Source ID</label>
+          <label for="dynamicId">ID источника</label>
           <select
             id="dynamicId"
             :value="selectedElement.dynamicId"
             :class="{ 'field-error': dynamicIdRequiredError }"
             @change="updateText('dynamicId', $event)"
           >
-            <option value="">Select ID</option>
+            <option value="">Выберите ID</option>
             <option v-for="entry in dynamicIdOptions" :key="entry.id" :value="entry.id">
               {{ entry.label }}
             </option>
@@ -178,11 +179,11 @@
           class="display-inspector__row"
         >
           <div>
-            <label for="prefix">Prefix</label>
+            <label for="prefix">Префикс</label>
             <input id="prefix" type="text" :value="selectedElement.prefix" @input="updateText('prefix', $event)" />
           </div>
           <div>
-            <label for="suffix">Suffix</label>
+            <label for="suffix">Суффикс</label>
             <input id="suffix" type="text" :value="selectedElement.suffix" @input="updateText('suffix', $event)" />
           </div>
         </div>
@@ -192,7 +193,7 @@
           class="display-inspector__row"
         >
           <div v-if="isNumericDomain(selectedElement.dynamicDomain)">
-            <label for="format">Format</label>
+            <label for="format">Формат</label>
             <input id="format" type="text" :value="selectedElement.format" @input="updateText('format', $event)" />
           </div>
         </div>
@@ -206,17 +207,17 @@
           class="display-inspector__row"
         >
           <div>
-            <label for="onLabel">On label</label>
+            <label for="onLabel">Текст для ON</label>
             <input id="onLabel" type="text" :value="selectedElement.onLabel" @input="updateText('onLabel', $event)" />
           </div>
           <div>
-            <label for="offLabel">Off label</label>
+            <label for="offLabel">Текст для OFF</label>
             <input id="offLabel" type="text" :value="selectedElement.offLabel" @input="updateText('offLabel', $event)" />
           </div>
         </div>
 
         <div v-if="selectedElement.type === 'text'">
-          <label for="wrap">Wrap text</label>
+          <label for="wrap">Перенос текста</label>
           <select
             id="wrap"
             :value="(selectedElement.wrap !== false).toString()"
@@ -228,7 +229,7 @@
         </div>
 
         <div v-if="showColorPicker" class="display-icon-picker">
-          <label for="elementColor">Color</label>
+          <label for="elementColor">Цвет</label>
           <div class="schema-icon-row">
             <input
               id="elementColor"
@@ -250,19 +251,19 @@
         </div>
 
         <div v-if="selectedElement.type === 'text'">
-          <label for="fontSource">Font source</label>
+          <label for="fontSource">Источник шрифта</label>
           <select
             id="fontSource"
             :value="selectedElement.fontSource || 'local'"
             @change="handleFontSourceChange"
           >
-            <option value="local">Local</option>
+            <option value="local">Локальный (Local)</option>
             <option value="google">Google Fonts</option>
           </select>
         </div>
 
         <div v-if="selectedElement.type === 'text' && (selectedElement.fontSource || 'local') === 'local'">
-          <label for="fontLocal">Font</label>
+          <label for="fontLocal">Шрифт</label>
           <select id="fontLocal" :value="selectedElement.fontFile" @change="handleLocalFontChange">
             <option v-for="font in visibleLocalFonts" :key="font.file" :value="font.file" :title="font.file">
               {{ formatFileOptionLabel(font.file) }}
@@ -275,7 +276,7 @@
           class="display-inspector__row"
         >
           <div>
-            <label for="fontFamily">Font family</label>
+            <label for="fontFamily">Семейство шрифта</label>
             <select id="fontFamily" :value="selectedElement.fontFamily" @change="handleGoogleFamilyChange">
               <option v-for="font in googleFonts" :key="font.family" :value="font.family">
                 {{ font.family }}
@@ -283,7 +284,7 @@
             </select>
           </div>
           <div>
-            <label for="fontVariant">Variant</label>
+            <label for="fontVariant">Стиль (Вариант)</label>
             <select id="fontVariant" :value="selectedElement.fontVariant" @change="handleGoogleVariantChange">
               <option
                 v-for="variant in googleFonts.find((item) => item.family === selectedElement.fontFamily)?.variants || []"
@@ -297,14 +298,14 @@
         </div>
 
         <div v-if="selectedElement.type === 'image'">
-          <label for="imageValue">Image</label>
+          <label for="imageValue">Изображение</label>
           <select
             id="imageValue"
             :value="selectedElement.image"
             :class="{ 'field-error': imageFileRequiredError }"
             @change="handleImageChange"
           >
-            <option value="">Select image</option>
+            <option value="">Выберите изображение</option>
             <option v-for="image in images" :key="image.file" :value="image.file" :title="image.file">
               {{ formatFileOptionLabel(image.file) }}
             </option>
@@ -315,7 +316,7 @@
         </div>
 
         <div v-if="selectedElement.type === 'image'">
-          <label for="imageType">Image type</label>
+          <label for="imageType">Тип изображения</label>
           <select
             id="imageType"
             :value="selectedImageType"
@@ -326,7 +327,7 @@
         </div>
 
         <div v-if="selectedElement.type === 'image'">
-          <label for="imageTransparency">Transparency</label>
+          <label for="imageTransparency">Прозрачность</label>
           <select
             id="imageTransparency"
             :value="selectedElement.imageTransparency || 'opaque'"
@@ -351,7 +352,7 @@
         </div>
 
         <div v-if="selectedElement.type === 'image' && imageSupportsDither">
-          <label for="imageDither">Dither</label>
+          <label for="imageDither">Дизеринг</label>
           <select
             id="imageDither"
             :value="selectedElement.imageDither || 'NONE'"
@@ -374,7 +375,7 @@
 
         <template v-if="selectedElement.type === 'animation'">
           <div>
-            <label for="animationId">Animation ID *</label>
+            <label for="animationId">ID анимации *</label>
             <input
               id="animationId"
               type="text"
@@ -384,19 +385,19 @@
               @input="updateText('animationId', $event)"
             />
             <div v-if="animationIdRequiredError" class="field-error-text">
-              Please provide an animation ID.
+              Пожалуйста, укажите ID анимации.
             </div>
           </div>
 
           <div>
-            <label for="animationFile">Animation file *</label>
+            <label for="animationFile">Файл анимации *</label>
             <select
               id="animationFile"
               :value="selectedElement.animationFile"
               :class="{ 'field-error': animationFileRequiredError }"
               @change="handleAnimationFileChange"
             >
-              <option value="">Select animation</option>
+              <option value="">Выберите анимацию</option>
               <option v-for="file in animationFiles" :key="file" :value="file" :title="file">
                 {{ formatFileOptionLabel(file) }}
               </option>
@@ -407,7 +408,7 @@
           </div>
 
           <div>
-            <label for="animationType">Type</label>
+            <label for="animationType">Тип</label>
             <select
               id="animationType"
               :value="selectedAnimationType"
@@ -418,7 +419,7 @@
           </div>
 
           <div>
-            <label for="animationTransparency">Transparency</label>
+            <label for="animationTransparency">Прозрачность</label>
             <select
               id="animationTransparency"
               :value="selectedElement.animationTransparency || 'opaque'"
@@ -443,7 +444,7 @@
           </div>
 
           <div v-if="animationSupportsDither">
-            <label for="animationDither">Dither</label>
+            <label for="animationDither">Дизеринг</label>
             <select
               id="animationDither"
               :value="selectedElement.animationDither || 'NONE'"
@@ -478,7 +479,7 @@
               </select>
             </div>
             <div>
-              <label for="animationAuto">Auto animate</label>
+              <label for="animationAuto">Авто-анимация</label>
               <select
                 id="animationAuto"
                 :value="Boolean(selectedElement.autoAnimate).toString()"
@@ -491,7 +492,7 @@
           </div>
 
           <div v-if="selectedElement.autoAnimate">
-            <label for="animationInterval">Interval (ms)</label>
+            <label for="animationInterval">Интервал (мс)</label>
             <input
               id="animationInterval"
               type="number"
@@ -503,7 +504,7 @@
 
           <div v-if="selectedElement.loopEnabled" class="display-inspector__row">
             <div>
-              <label for="animationLoopStart">Start frame</label>
+              <label for="animationLoopStart">Начальный кадр</label>
               <input
                 id="animationLoopStart"
                 type="number"
@@ -513,7 +514,7 @@
               />
             </div>
             <div>
-              <label for="animationLoopEnd">End frame</label>
+              <label for="animationLoopEnd">Конечный кадр</label>
               <input
                 id="animationLoopEnd"
                 type="number"
@@ -525,7 +526,7 @@
           </div>
 
           <div v-if="selectedElement.loopEnabled">
-            <label for="animationLoopRepeat">Repeat</label>
+            <label for="animationLoopRepeat">Повторы</label>
             <input
               id="animationLoopRepeat"
               type="number"
@@ -538,7 +539,7 @@
 
         <template v-if="selectedElement.type === 'graph'">
           <div>
-            <label for="graphId">Graph ID *</label>
+            <label for="graphId">ID графика *</label>
             <input
               id="graphId"
               type="text"
@@ -548,13 +549,13 @@
               @input="updateText('graphId', $event)"
             />
             <div v-if="graphIdRequiredError" class="field-error-text">
-              Please provide a graph ID.
+              Пожалуйста, укажите ID графика.
             </div>
           </div>
 
           <div class="display-inspector__row">
             <div>
-              <label for="graphDuration">Duration *</label>
+              <label for="graphDuration">Длительность *</label>
               <input
                 id="graphDuration"
                 type="text"
@@ -565,7 +566,7 @@
               />
             </div>
             <div>
-              <label for="graphBorder">Border</label>
+              <label for="graphBorder">Рамка</label>
               <input
                 id="graphBorder"
                 type="checkbox"
@@ -578,7 +579,7 @@
 
           <div class="display-inspector__row">
             <div>
-              <label for="graphXGrid">X grid</label>
+              <label for="graphXGrid">Сетка X</label>
               <input
                 id="graphXGrid"
                 type="text"
@@ -588,7 +589,7 @@
               />
             </div>
             <div>
-              <label for="graphYGrid">Y grid</label>
+              <label for="graphYGrid">Сетка Y</label>
               <input
                 id="graphYGrid"
                 type="text"
@@ -601,7 +602,7 @@
 
           <div class="display-inspector__row">
             <div>
-              <label for="graphMinRange">Min range</label>
+              <label for="graphMinRange">Мин. диапазон</label>
               <input
                 id="graphMinRange"
                 type="number"
@@ -611,7 +612,7 @@
               />
             </div>
             <div>
-              <label for="graphMaxRange">Max range</label>
+              <label for="graphMaxRange">Макс. диапазон</label>
               <input
                 id="graphMaxRange"
                 type="number"
@@ -624,7 +625,7 @@
 
           <div class="display-inspector__row">
             <div>
-              <label for="graphMinValue">Min value</label>
+              <label for="graphMinValue">Мин. значение</label>
               <input
                 id="graphMinValue"
                 type="number"
@@ -634,7 +635,7 @@
               />
             </div>
             <div>
-              <label for="graphMaxValue">Max value</label>
+              <label for="graphMaxValue">Макс. значение</label>
               <input
                 id="graphMaxValue"
                 type="number"
@@ -646,7 +647,7 @@
           </div>
 
           <div>
-            <label for="graphUseTraces">Use multiple traces</label>
+            <label for="graphUseTraces">Несколько линий</label>
             <input
               id="graphUseTraces"
               type="checkbox"
@@ -658,7 +659,7 @@
 
           <div v-if="!selectedElement.useTraces" class="display-inspector__row">
             <div>
-              <label for="graphLineType">Line type</label>
+              <label for="graphLineType">Тип линии</label>
               <select
                 id="graphLineType"
                 :value="selectedElement.lineType || 'SOLID'"
@@ -670,7 +671,7 @@
               </select>
             </div>
             <div>
-              <label for="graphLineThickness">Thickness</label>
+              <label for="graphLineThickness">Толщина</label>
               <input
                 id="graphLineThickness"
                 type="number"
@@ -682,7 +683,7 @@
 
           <div v-if="!selectedElement.useTraces" class="display-inspector__row">
             <div v-if="!isMonochrome" class="display-icon-picker">
-              <label for="graphColor">Color</label>
+              <label for="graphColor">Цвет</label>
               <div class="schema-icon-row">
                 <input
                   id="graphColor"
@@ -703,7 +704,7 @@
               />
             </div>
             <div>
-              <label for="graphContinuous">Continuous</label>
+              <label for="graphContinuous">Непрерывный</label>
               <input
                 id="graphContinuous"
                 type="checkbox"
@@ -716,27 +717,27 @@
 
           <div v-else class="display-trace-list">
             <div class="display-trace-header">
-              <strong>Traces</strong>
-              <button type="button" class="secondary compact" @click="addTrace">Add trace</button>
+              <strong>Линии</strong>
+              <button type="button" class="secondary compact" @click="addTrace">Добавить линию</button>
             </div>
-            <div v-if="!selectedElement.traces?.length" class="note">No traces added.</div>
+            <div v-if="!selectedElement.traces?.length" class="note">Линии не добавлены.</div>
             <div v-for="(trace, index) in selectedElement.traces" :key="index" class="display-trace-card">
               <div class="display-inspector__row">
                 <div>
-                  <label :for="`traceSensor_${index}`">Sensor</label>
+                  <label :for="`traceSensor_${index}`">Сенсор</label>
                   <select
                     :id="`traceSensor_${index}`"
                     :value="trace.sensor || ''"
                     @change="updateTrace(index, 'sensor', $event.target.value)"
                   >
-                    <option value="">Select sensor</option>
+                    <option value="">Выберите сенсор</option>
                     <option v-for="entry in graphSensorOptions" :key="entry.id" :value="entry.id">
                       {{ entry.label }}
                     </option>
                   </select>
                 </div>
                 <div>
-                  <label :for="`traceName_${index}`">Name</label>
+                  <label :for="`traceName_${index}`">Имя</label>
                   <input
                     :id="`traceName_${index}`"
                     type="text"
@@ -747,7 +748,7 @@
               </div>
               <div class="display-inspector__row">
                 <div>
-                  <label :for="`traceLineType_${index}`">Line type</label>
+                  <label :for="`traceLineType_${index}`">Тип линии</label>
                   <select
                     :id="`traceLineType_${index}`"
                     :value="trace.lineType || 'SOLID'"
@@ -759,7 +760,7 @@
                   </select>
                 </div>
                 <div>
-                  <label :for="`traceThickness_${index}`">Thickness</label>
+                  <label :for="`traceThickness_${index}`">Толщина</label>
                   <input
                     :id="`traceThickness_${index}`"
                     type="number"
@@ -770,7 +771,7 @@
               </div>
               <div class="display-inspector__row">
                 <div v-if="!isMonochrome" class="display-icon-picker">
-                  <label :for="`traceColor_${index}`">Color</label>
+                  <label :for="`traceColor_${index}`">Цвет</label>
                   <div class="schema-icon-row">
                     <input
                       :id="`traceColor_${index}`"
@@ -792,7 +793,7 @@
                   </div>
                 </div>
                 <div>
-                  <label :for="`traceContinuous_${index}`">Continuous</label>
+                  <label :for="`traceContinuous_${index}`">Непрерывный</label>
                   <input
                     :id="`traceContinuous_${index}`"
                     type="checkbox"
@@ -803,7 +804,7 @@
                 </div>
               </div>
               <div class="display-trace-actions">
-                <button type="button" class="secondary compact" @click="removeTrace(index)">Remove</button>
+                <button type="button" class="secondary compact" @click="removeTrace(index)">Удалить</button>
               </div>
             </div>
             <ColorPickerModal
@@ -828,24 +829,24 @@
           <div v-if="selectedElement.legendEnabled" class="display-legend">
             <div class="display-inspector__row">
               <div>
-                <label for="legendNameFontSource">Name font source</label>
+                <label for="legendNameFontSource">Шрифт имени (источник)</label>
                 <select
                   id="legendNameFontSource"
                   :value="selectedElement.legendNameFontSource || 'local'"
                   @change="handleLegendNameFontSourceChange"
                 >
-                  <option value="local">Local</option>
+                  <option value="local">Локальный (Local)</option>
                   <option value="google">Google Fonts</option>
                 </select>
               </div>
               <div>
-                <label for="legendValueFontSource">Value font source</label>
+                <label for="legendValueFontSource">Шрифт значения (источник)</label>
                 <select
                   id="legendValueFontSource"
                   :value="selectedElement.legendValueFontSource || 'local'"
                   @change="handleLegendValueFontSourceChange"
                 >
-                  <option value="local">Local</option>
+                  <option value="local">Локальный (Local)</option>
                   <option value="google">Google Fonts</option>
                 </select>
               </div>
@@ -856,20 +857,20 @@
               class="display-inspector__row"
             >
               <div>
-                <label for="legendNameFontFile">Name font</label>
+                <label for="legendNameFontFile">Шрифт имени</label>
                 <select
                   id="legendNameFontFile"
                   :value="selectedElement.legendNameFontFile"
                   @change="handleLegendNameFontFileChange"
                 >
-                  <option value="">Select font</option>
+                  <option value="">Выберите шрифт</option>
                   <option v-for="font in visibleLocalFonts" :key="font.file" :value="font.file" :title="font.file">
                     {{ formatFileOptionLabel(font.file) }}
                   </option>
                 </select>
               </div>
               <div>
-                <label for="legendNameFontSize">Name size</label>
+                <label for="legendNameFontSize">Размер имени</label>
                 <input
                   id="legendNameFontSize"
                   type="number"
@@ -884,20 +885,20 @@
               class="display-inspector__row"
             >
               <div>
-                <label for="legendNameFontFamily">Name family</label>
+                <label for="legendNameFontFamily">Семейство имени</label>
                 <select
                   id="legendNameFontFamily"
                   :value="selectedElement.legendNameFontFamily"
                   @change="handleLegendNameFontFamilyChange"
                 >
-                  <option value="">Select family</option>
+                  <option value="">Выберите семейство</option>
                   <option v-for="font in googleFonts" :key="font.family" :value="font.family">
                     {{ font.family }}
                   </option>
                 </select>
               </div>
               <div>
-                <label for="legendNameFontVariant">Variant</label>
+                <label for="legendNameFontVariant">Стиль (Вариант)</label>
                 <select
                   id="legendNameFontVariant"
                   :value="selectedElement.legendNameFontVariant || 'regular'"
@@ -913,7 +914,7 @@
                 </select>
               </div>
               <div>
-                <label for="legendNameFontSizeGoogle">Name size</label>
+                <label for="legendNameFontSizeGoogle">Размер имени</label>
                 <input
                   id="legendNameFontSizeGoogle"
                   type="number"
@@ -928,20 +929,20 @@
               class="display-inspector__row"
             >
               <div>
-                <label for="legendValueFontFile">Value font</label>
+                <label for="legendValueFontFile">Шрифт значения</label>
                 <select
                   id="legendValueFontFile"
                   :value="selectedElement.legendValueFontFile"
                   @change="handleLegendValueFontFileChange"
                 >
-                  <option value="">Select font</option>
+                  <option value="">Выберите шрифт</option>
                   <option v-for="font in visibleLocalFonts" :key="font.file" :value="font.file" :title="font.file">
                     {{ formatFileOptionLabel(font.file) }}
                   </option>
                 </select>
               </div>
               <div>
-                <label for="legendValueFontSize">Value size</label>
+                <label for="legendValueFontSize">Размер значения</label>
                 <input
                   id="legendValueFontSize"
                   type="number"
@@ -956,20 +957,20 @@
               class="display-inspector__row"
             >
               <div>
-                <label for="legendValueFontFamily">Value family</label>
+                <label for="legendValueFontFamily">Семейство значения</label>
                 <select
                   id="legendValueFontFamily"
                   :value="selectedElement.legendValueFontFamily"
                   @change="handleLegendValueFontFamilyChange"
                 >
-                  <option value="">Select family</option>
+                  <option value="">Выберите семейство</option>
                   <option v-for="font in googleFonts" :key="font.family" :value="font.family">
                     {{ font.family }}
                   </option>
                 </select>
               </div>
               <div>
-                <label for="legendValueFontVariant">Variant</label>
+                <label for="legendValueFontVariant">Стиль (Вариант)</label>
                 <select
                   id="legendValueFontVariant"
                   :value="selectedElement.legendValueFontVariant || 'regular'"
@@ -985,7 +986,7 @@
                 </select>
               </div>
               <div>
-                <label for="legendValueFontSizeGoogle">Value size</label>
+                <label for="legendValueFontSizeGoogle">Размер значения</label>
                 <input
                   id="legendValueFontSizeGoogle"
                   type="number"
@@ -997,7 +998,7 @@
 
             <div class="display-inspector__row">
               <div>
-                <label for="legendWidth">Legend width</label>
+                <label for="legendWidth">Ширина легенды</label>
                 <input
                   id="legendWidth"
                   type="number"
@@ -1007,7 +1008,7 @@
                 />
               </div>
               <div>
-                <label for="legendHeight">Legend height</label>
+                <label for="legendHeight">Высота легенды</label>
                 <input
                   id="legendHeight"
                   type="number"
@@ -1020,7 +1021,7 @@
 
             <div class="display-inspector__row">
               <div>
-                <label for="legendBorder">Legend border</label>
+                <label for="legendBorder">Рамка легенды</label>
                 <input
                   id="legendBorder"
                   type="checkbox"
@@ -1030,7 +1031,7 @@
                 />
               </div>
               <div>
-                <label for="legendShowLines">Show lines</label>
+                <label for="legendShowLines">Показывать линии</label>
                 <input
                   id="legendShowLines"
                   type="checkbox"
@@ -1043,7 +1044,7 @@
 
             <div class="display-inspector__row">
               <div>
-                <label for="legendShowValues">Show values</label>
+                <label for="legendShowValues">Показывать значения</label>
                 <select
                   id="legendShowValues"
                   :value="selectedElement.legendShowValues || 'AUTO'"
@@ -1056,7 +1057,7 @@
                 </select>
               </div>
               <div>
-                <label for="legendDirection">Direction</label>
+                <label for="legendDirection">Направление</label>
                 <select
                   id="legendDirection"
                   :value="selectedElement.legendDirection || 'AUTO'"
@@ -1070,7 +1071,7 @@
             </div>
 
             <div>
-              <label for="legendShowUnits">Show units</label>
+              <label for="legendShowUnits">Показывать единицы</label>
               <input
                 id="legendShowUnits"
                 type="checkbox"
@@ -1083,7 +1084,7 @@
         </template>
 
         <div v-if="selectedElement.type === 'icon'" class="display-icon-picker">
-          <label for="iconValue">Icon</label>
+          <label for="iconValue">Иконка</label>
           <div class="schema-icon-row">
             <input
               id="iconValue"
@@ -1096,7 +1097,7 @@
             <button type="button" class="secondary compact schema-icon-btn" @click="openIconPicker">
               <img
                 :src="iconButtonUrl"
-                alt="Add icon"
+                alt="Добавить иконку"
               />
             </button>
           </div>
@@ -1112,7 +1113,7 @@
           />
         </div>
         <div v-if="selectedElement.type === 'icon' && !isMonochrome" class="display-icon-picker">
-          <label for="iconColor">Color</label>
+          <label for="iconColor">Цвет</label>
           <div class="schema-icon-row">
             <input
               id="iconColor"
@@ -1245,11 +1246,11 @@ const shapeHint = computed(() => {
   const type = props.selectedElement?.type;
   if (type !== "shape") return "";
   const shape = props.selectedElement?.shapeType;
-  if (shape === "line") return "Line uses X/Y and W/H as end point.";
-  if (shape === "rect") return "Rectangle uses X/Y and W/H.";
-  if (shape === "circle") return "Circle uses X/Y and W/H as bounds.";
-  if (shape === "triangle") return "Triangle uses X/Y and W/H as bounds.";
-  if (shape?.startsWith("polygon")) return "Polygon uses X/Y and W/H as bounds.";
+  if (shape === "line") return "Линия использует X/Y и W/H как конечную точку.";
+  if (shape === "rect") return "Прямоугольник использует X/Y и W/H.";
+  if (shape === "circle") return "Круг использует X/Y и W/H в качестве границ.";
+  if (shape === "triangle") return "Треугольник использует X/Y и W/H в качестве границ.";
+  if (shape?.startsWith("polygon")) return "Многоугольник использует X/Y и W/H в качестве границ.";
   return "";
 });
 
@@ -1384,9 +1385,9 @@ const iconRequiredError = computed(() => {
 });
 
 const iconErrorText = computed(() => {
-  if (!props.mdiIcons?.length) return "No MDI icons available.";
-  if (!iconName.value) return "Please select an icon.";
-  return "Invalid MDI icon name.";
+  if (!props.mdiIcons?.length) return "Нет доступных иконок MDI.";
+  if (!iconName.value) return "Пожалуйста, выберите иконку.";
+  return "Неверное имя иконки MDI.";
 });
 
 const colorInputValue = computed(() => props.selectedElement?.color || "");
@@ -1429,8 +1430,8 @@ const dynamicIdRequiredError = computed(() => {
 });
 
 const dynamicIdErrorText = computed(() => {
-  if (!dynamicIdOptions.value.length) return "No source IDs available.";
-  return "Please select a source ID.";
+  if (!dynamicIdOptions.value.length) return "Нет доступных ID источников.";
+  return "Пожалуйста, выберите ID источника.";
 });
 
 const graphIdRequiredError = computed(() => {
@@ -1453,8 +1454,8 @@ const graphSensorRequiredError = computed(() => {
 });
 
 const graphSensorErrorText = computed(() => {
-  if (!graphSensorOptions.value.length) return "No sensor IDs available.";
-  return "Please select a sensor ID.";
+  if (!graphSensorOptions.value.length) return "Нет доступных ID сенсоров.";
+  return "Пожалуйста, выберите ID сенсора.";
 });
 
 const animationFiles = computed(() =>
@@ -1485,8 +1486,8 @@ const animationFileRequiredError = computed(() => {
 });
 
 const animationFileErrorText = computed(() => {
-  if (!animationFiles.value.length) return "No GIF animations available.";
-  return "Please select an animation file.";
+  if (!animationFiles.value.length) return "Нет доступных GIF-анимаций.";
+  return "Пожалуйста, выберите файл анимации.";
 });
 
 const imageFileRequiredError = computed(() => {
@@ -1498,8 +1499,8 @@ const imageFileRequiredError = computed(() => {
 });
 
 const imageFileErrorText = computed(() => {
-  if (!imageFiles.value.length) return "No image files available.";
-  return "Please select an image file.";
+  if (!imageFiles.value.length) return "Нет доступных файлов изображений.";
+  return "Пожалуйста, выберите файл изображения.";
 });
 
 
@@ -1933,8 +1934,8 @@ const handleImageChange = (event) => {
 };
 
 const dynamicModeOptions = [
-  { value: "static", label: "Static text" },
-  { value: "dynamic", label: "Dynamic value" }
+  { value: "static", label: "Статический текст" },
+  { value: "dynamic", label: "Динамическое значение" }
 ];
 
 const isNumericDomain = (domain) => ["sensor", "number"].includes(domain);

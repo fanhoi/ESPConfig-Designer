@@ -2,14 +2,14 @@
   <div class="module-card">
     <div class="components-header">
       <div class="components-title">
-        <h2>Platform</h2>
+        <h2>Платформа</h2>
         <a
           v-if="activeTabHelpUrl"
           class="filter-help"
           :href="activeTabHelpUrl"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Documentation"
+          aria-label="Документация"
         >
           ?
         </a>

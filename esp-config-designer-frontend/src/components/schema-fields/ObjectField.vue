@@ -29,6 +29,7 @@
 </template>
 
 <script setup>
+// Компонент для отображения вложенных объектов (групп полей)
 import SchemaField from '../SchemaField.vue';
 
 // ObjectField renders nested schema groups recursively.

@@ -30,7 +30,7 @@
     <div v-if="advancedOpen && !advancedConfigDisabled" class="schema-gpio-advanced">
       <div class="schema-list-header">
         <div class="schema-list-title">
-          <span>Advanced pin settings</span>
+          <span>Расширенные настройки контактов (GPIO)</span>
         </div>
       </div>
 
@@ -75,7 +75,7 @@
           <label :for="`${inputId}-mode`">mode</label>
           <select :id="`${inputId}-mode`" :value="modeSelectValue" @change="onModePresetChange">
             <option v-if="showCustomModeSelected" :value="modeSelectValue" hidden>{{ modeSelectLabel }}</option>
-            <option value="">Default</option>
+            <option value="">По умолчанию</option>
             <option v-for="option in modePresetOptions" :key="option" :value="option">
               {{ option }}
             </option>
@@ -89,7 +89,7 @@
             :value="normalizedValue.drive_strength"
             @change="setDriveStrength($event.target.value)"
           >
-            <option value="">Default</option>
+            <option value="">По умолчанию</option>
             <option v-for="option in driveStrengthOptions" :key="option" :value="option">
               {{ option }}
             </option>
@@ -112,6 +112,7 @@
 </template>
 
 <script setup>
+// Компонент для выбора и тонкой настройки пинов GPIO
 import { computed, ref, watch } from 'vue';
 import GpioPickerModal from '../GpioPickerModal.vue';
 import {
@@ -156,7 +157,7 @@ const visibleAdvancedFields = computed(() =>
 const modePresetOptions = computed(() => gpioModePresetOptions());
 const driveStrengthOptions = computed(() => GPIO_DRIVE_STRENGTH_OPTIONS);
 const advancedToggleLabel = computed(() =>
-  advancedOpen.value ? 'Hide advanced GPIO settings' : 'Show advanced GPIO settings'
+  advancedOpen.value ? 'Скрыть расширенные настройки GPIO' : 'Показать расширенные настройки GPIO'
 );
 const inputRowClass = computed(() => [
   'schema-input-action-row',
@@ -169,12 +170,12 @@ const hasModeConfigSelection = computed(() =>
 );
 const showCustomModeSelected = computed(() => !normalizedValue.value.mode && hasModeConfigSelection.value);
 const modeSelectValue = computed(() => (normalizedValue.value.mode ? normalizedValue.value.mode : showCustomModeSelected.value ? '__custom__' : ''));
-const modeSelectLabel = computed(() => (showCustomModeSelected.value ? 'Custom mapping' : 'Default'));
+const modeSelectLabel = computed(() => (showCustomModeSelected.value ? 'Собственное сопоставление' : 'По умолчанию'));
 
 const booleanSelectValue = (value) => (value === true ? 'true' : 'false');
 const booleanSelectedLabel = (value) => (value === true ? 'TRUE' : 'FALSE');
-const booleanTrueOptionLabel = (defaultValue = false) => (defaultValue === true ? 'TRUE (default)' : 'TRUE');
-const booleanFalseOptionLabel = (defaultValue = false) => (defaultValue === false ? 'FALSE (default)' : 'FALSE');
+const booleanTrueOptionLabel = (defaultValue = false) => (defaultValue === true ? 'TRUE (по умолчанию)' : 'TRUE');
+const booleanFalseOptionLabel = (defaultValue = false) => (defaultValue === false ? 'FALSE (по умолчанию)' : 'FALSE');
 const parseBooleanSelect = (event) => event?.target?.value === '__opt_true';
 
 watch(

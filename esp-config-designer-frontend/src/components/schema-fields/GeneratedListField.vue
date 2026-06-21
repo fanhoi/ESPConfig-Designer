@@ -18,7 +18,7 @@
         />
       </div>
     </div>
-    <div v-if="itemCount === 0" class="note">No items yet</div>
+    <div v-if="itemCount === 0" class="note">Элементы отсутствуют</div>
     <div v-else-if="isInlineSingleFieldObject" class="schema-levels schema-fixed-list-grid">
       <SchemaField
         v-for="(item, index) in generatedListValue"
@@ -93,6 +93,7 @@
 </template>
 
 <script setup>
+// Компонент для отображения списка элементов с возможностью изменения их количества (Generated List)
 import { computed, watch } from 'vue';
 import SchemaField from '../SchemaField.vue';
 import { isFieldVisible } from '../../utils/schemaVisibility';
@@ -122,7 +123,7 @@ const emit = defineEmits(['update', 'open-secrets']);
 const countConfig = computed(() => props.field?.count || {});
 const countLabel = computed(() => {
   const label = typeof countConfig.value?.label === 'string' ? countConfig.value.label.trim() : '';
-  return label || 'Count';
+  return label || 'Количество';
 });
 const countMin = computed(() => {
   const value = Number(countConfig.value?.min);

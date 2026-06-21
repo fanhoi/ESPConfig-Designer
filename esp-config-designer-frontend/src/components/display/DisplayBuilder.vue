@@ -7,7 +7,7 @@
         :disabled="!screen"
         @click="isOpen = true"
       >
-        Display configurator
+        Конфигуратор дисплея
       </button>
     </div>
 
@@ -20,23 +20,23 @@
       <div class="display-config-card" role="dialog" aria-modal="true">
         <header class="display-config-header">
           <div>
-            <h3>Display configurator</h3>
+            <h3>Конфигуратор дисплея</h3>
             <p class="display-config-meta">
-              Model: <strong>{{ displayModelName }}</strong>
-              <span v-if="screen"> | Resolution: {{ screen.w }}x{{ screen.h }} px</span>
+              Модель: <strong>{{ displayModelName }}</strong>
+              <span v-if="screen"> | Разрешение: {{ screen.w }}x{{ screen.h }} px</span>
             </p>
           </div>
           <div class="display-config-actions">
-            <button type="button" class="secondary compact" @click="openAssetManager">Assets</button>
-            <button type="button" class="secondary compact" @click="confirmResetOpen = true">Reset</button>
+            <button type="button" class="secondary compact" @click="openAssetManager">Ресурсы</button>
+            <button type="button" class="secondary compact" @click="confirmResetOpen = true">Сбросить</button>
           </div>
         </header>
         <ConfirmModal
           :open="confirmResetOpen"
-          title="Confirm"
-          message="Reset all display elements?"
-          confirm-text="Yes"
-          cancel-text="Cancel"
+          title="Подтверждение"
+          message="Сбросить все элементы дисплея?"
+          confirm-text="Да"
+          cancel-text="Отмена"
           @confirm="confirmReset"
           @cancel="confirmResetOpen = false"
         />
@@ -45,7 +45,7 @@
           <div class="display-config-column">
             <section class="display-config-panel display-config-panel--toolbox">
               <div class="display-config-panel__header">
-                <h4>Toolbox</h4>
+                <h4>Инструменты</h4>
               </div>
               <DisplayToolbar
                 orientation="vertical"
@@ -56,7 +56,7 @@
 
             <section class="display-config-panel display-config-panel--layers">
               <div class="display-config-panel__header">
-                <h4>Elements</h4>
+                <h4>Элементы</h4>
               </div>
               <div class="display-element-list">
                 <button
@@ -79,14 +79,14 @@
                   <span class="display-element-type">{{ elementTypeLabel(element) }}</span>
                   <span class="display-element-name">{{ elementListLabel(element) }}</span>
                 </button>
-                <div v-if="!elements.length" class="note">No elements added yet.</div>
+                <div v-if="!elements.length" class="note">Элементы еще не добавлены.</div>
               </div>
             </section>
           </div>
 
           <section class="display-config-panel display-config-panel--canvas">
             <div class="display-config-panel__header">
-              <h4>Screen</h4>
+              <h4>Экран</h4>
               <div class="display-zoom">
                 <button
                   type="button"
@@ -139,7 +139,7 @@
                   @select="handleSelect"
                   @update-element="handleElementUpdate"
                 />
-                <p v-else class="note">Select a display model in the form to enable the configurator.</p>
+                <p v-else class="note">Выберите модель дисплея в форме для включения конфигуратора.</p>
               </div>
             </div>
           </section>
@@ -147,14 +147,14 @@
           <div class="display-config-inspector-column">
             <section class="display-config-panel display-config-panel--inspector">
               <div class="display-config-panel__header">
-                <h4>Inspector</h4>
+                <h4>Инспектор</h4>
                 <button
                   v-if="selectedElement"
                   type="button"
                   class="secondary compact display-inspector-delete"
                   @click="handleDelete"
                 >
-                  Delete {{ deleteElementLabel(selectedElement) }}
+                  Удалить {{ deleteElementLabel(selectedElement) }}
                 </button>
               </div>
               <div class="display-inspector-body">
@@ -176,7 +176,7 @@
               </div>
             </section>
             <div class="display-inspector-footer">
-              <button type="button" class="secondary compact" @click="handleClose">Close</button>
+              <button type="button" class="secondary compact" @click="handleClose">Закрыть</button>
             </div>
           </div>
         </div>
@@ -186,6 +186,7 @@
 </template>
 
 <script setup>
+// Компонент конструктора дисплея: управляет визуальным размещением элементов на экране, слоями и инспектором свойств
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import ConfirmModal from "../ConfirmModal.vue";
 import DisplayCanvas from "./DisplayCanvas.vue";
@@ -736,44 +737,47 @@ const confirmReset = () => {
 
 const elementListLabel = (element) => {
   if (element.type === "text" && element.textMode === "dynamic") {
-    return element.dynamicId || "Value";
+    return element.dynamicId || "Значение";
   }
-  if (element.type === "text") return element.text || "Text";
-  if (element.type === "image") return element.image || "Image";
-  if (element.type === "icon") return !element.icon || element.icon === "placeholder" ? "Icon" : element.icon;
-  if (element.type === "graph") return element.graphId || "Graph";
-  if (element.type === "animation") return element.animationId || "Animation";
+  if (element.type === "text") return element.text || "Текст";
+  if (element.type === "image") return element.image || "Изображение";
+  if (element.type === "icon") return !element.icon || element.icon === "placeholder" ? "Иконка" : element.icon;
+  if (element.type === "graph") return element.graphId || "График";
+  if (element.type === "animation") return element.animationId || "Анимация";
   if (element.type === "shape") {
-    if (element.shapeType === "line") return "Line";
-    if (element.shapeType === "rect") return element.filled ? "Filled rectangle" : "Rectangle";
-    if (element.shapeType === "circle") return element.filled ? "Filled circle" : "Circle";
-    if (element.shapeType === "triangle") return "Triangle";
-    if (element.shapeType === "polygon5") return "Pentagon";
-    if (element.shapeType === "polygon6") return "Hexagon";
-    if (element.shapeType === "polygon7") return "Heptagon";
-    if (element.shapeType === "polygon8") return "Octagon";
-    return "Shape";
+    if (element.shapeType === "line") return "Линия";
+    if (element.shapeType === "rect") return element.filled ? "Залитый прямоугольник" : "Прямоугольник";
+    if (element.shapeType === "circle") return element.filled ? "Залитый круг" : "Круг";
+    if (element.shapeType === "triangle") return "Треугольник";
+    if (element.shapeType === "polygon5") return "Пятиугольник";
+    if (element.shapeType === "polygon6") return "Шестиугольник";
+    if (element.shapeType === "polygon7") return "Семиугольник";
+    if (element.shapeType === "polygon8") return "Восьмиугольник";
+    return "Фигура";
   }
   return element.id;
 };
 
 const deleteElementLabel = (element) => {
-  if (!element?.type) return "Element";
-  if (element.type === "text") return "Text";
-  if (element.type === "image") return "Image";
-  if (element.type === "icon") return "Icon";
-  if (element.type === "graph") return "Graph";
-  if (element.type === "animation") return "Animation";
-  if (element.type === "shape") return "Shape";
-  return "Element";
+  if (!element?.type) return "элемент";
+  if (element.type === "text") return "текст";
+  if (element.type === "image") return "изображение";
+  if (element.type === "icon") return "иконку";
+  if (element.type === "graph") return "график";
+  if (element.type === "animation") return "анимацию";
+  if (element.type === "shape") return "фигуру";
+  return "элемент";
 };
 
 const elementTypeLabel = (element) => {
   if (element.type === "text") {
-    return element.textMode === "dynamic" ? "value" : "text";
+    return element.textMode === "dynamic" ? "значение" : "текст";
   }
-  if (element.type === "graph") return "graph";
-  if (element.type === "animation") return "animation";
+  if (element.type === "graph") return "график";
+  if (element.type === "animation") return "анимация";
+  if (element.type === "image") return "изображение";
+  if (element.type === "icon") return "иконка";
+  if (element.type === "shape") return "фигура";
   return element.type;
 };
 

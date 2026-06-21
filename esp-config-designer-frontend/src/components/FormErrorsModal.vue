@@ -36,7 +36,7 @@ const props = defineProps({
   },
   message: {
     type: String,
-    default: "Please correct the errors below before proceeding with installation."
+    default: "Пожалуйста, исправьте ошибки ниже перед тем, как продолжить установку."
   },
   tone: {
     type: String,
@@ -55,7 +55,7 @@ const modalClass = computed(() =>
 );
 
 const ariaLabel = computed(() =>
-  props.tone === "neutral" ? "Information" : "Form errors"
+  props.tone === "neutral" ? "Информация" : "Ошибки в форме"
 );
 
 const handleKeydown = (event) => {

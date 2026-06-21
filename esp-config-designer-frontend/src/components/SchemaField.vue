@@ -166,6 +166,7 @@
 </template>
 
 <script setup>
+// Компонент-диспетчер для отображения полей формы на основе схемы ESPHome
 import { computed, ref, watch } from "vue";
 import FixedListField from "./schema-fields/FixedListField.vue";
 import GeneratedListField from "./schema-fields/GeneratedListField.vue";
@@ -365,7 +366,7 @@ const hasExplicitGeneratedListValue = computed(() => Array.isArray(fieldValue.va
 const fixedListItemLabel = (index) => {
   const labels = Array.isArray(props.field?.labels) ? props.field.labels : [];
   const explicit = typeof labels[index] === "string" ? labels[index].trim() : "";
-  return explicit || `${props.field.item?.labelPrefix || "Item"} ${index + 1}`;
+  return explicit || `${props.field.item?.labelPrefix || "Элемент"} ${index + 1}`;
 };
 
 const fixedListChildField = (index) => ({
@@ -496,11 +497,11 @@ const hasExplicitDefault = computed(() =>
 );
 
 const booleanTrueOptionLabel = computed(() =>
-  hasExplicitDefault.value && props.field.default === true ? "TRUE (default)" : "TRUE"
+  hasExplicitDefault.value && props.field.default === true ? "TRUE (по умолчанию)" : "TRUE"
 );
 
 const booleanFalseOptionLabel = computed(() =>
-  hasExplicitDefault.value && props.field.default === false ? "FALSE (default)" : "FALSE"
+  hasExplicitDefault.value && props.field.default === false ? "FALSE (по умолчанию)" : "FALSE"
 );
 
 const booleanSelectedLabel = computed(() =>
@@ -518,7 +519,7 @@ const selectedOptionLabel = computed(() => String(resolvedValue.value ?? ""));
 
 const selectOptionDropdownLabel = (option) => {
   if (!hasExplicitDefault.value) return option;
-  return option === props.field.default ? `${option} (default)` : option;
+  return option === props.field.default ? `${option} (по умолчанию)` : option;
 };
 
 const idOptions = computed(() => {
@@ -565,23 +566,23 @@ const fieldError = computed(() => {
   const rawValue = resolvedValue.value;
   if (isFixedListField.value) {
     if (props.field?.item?.type === "object") {
-      return "Fixed list supports only primitive item types.";
+      return "Фиксированный список поддерживает только примитивные типы элементов.";
     }
-    return fixedListLength.value <= 0 ? "Fixed list requires a positive length." : "";
+    return fixedListLength.value <= 0 ? "Фиксированный список требует положительной длины." : "";
   }
   if (passwordFormat.value === "base64_44") {
     const value = typeof rawValue === "string" ? rawValue.trim() : "";
     if (!/^[A-Za-z0-9+/]{43}=$/.test(value)) {
-      return "Key must be base64 (44 chars, ending with =).";
+      return "Ключ должен быть base64 (44 символа, заканчиваться на =).";
     }
   }
   if (!rawValue || typeof rawValue !== "string") return "";
   const key = rawValue.toLowerCase();
   if (isIdField.value) {
-    return (props.idRegistry?.[key] || 0) > 1 ? "ID already used" : "";
+    return (props.idRegistry?.[key] || 0) > 1 ? "ID уже используется" : "";
   }
   if (isNameField.value) {
-    return (props.nameRegistry?.[key] || 0) > 1 ? "Name already used" : "";
+    return (props.nameRegistry?.[key] || 0) > 1 ? "Имя уже используется" : "";
   }
   return "";
 });
@@ -590,11 +591,11 @@ const fieldError = computed(() => {
 const idRefError = computed(() => {
   if (!isIdRefField.value) return "";
   if (props.field?.required !== true) return "";
-  if (!idOptions.value.length) return "No matching identifiers available";
+  if (!idOptions.value.length) return "Нет подходящих идентификаторов";
   const value = resolvedValue.value;
   if (!value || typeof value !== "string") return "";
   const match = idOptions.value.some((option) => option.toLowerCase() === value.toLowerCase());
-  return match ? "" : "No matching identifiers available";
+  return match ? "" : "Нет подходящих идентификаторов";
 });
 
 const hasAppliedDefault = ref(false);

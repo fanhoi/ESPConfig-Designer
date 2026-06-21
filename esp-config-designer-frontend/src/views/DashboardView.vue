@@ -165,7 +165,7 @@ import { normalizeHexColor } from "../utils/displayColor";
 // components/composables so the view can stay centered on dashboard workflows.
 
 const ROOT_FOLDER_ID = "root";
-const ROOT_FOLDER_LABEL = "Projects";
+const ROOT_FOLDER_LABEL = "Проекты";
 const router = useRouter();
 
 // Core reactive state for dashboard rendering and interactions.
@@ -312,7 +312,7 @@ const projectKeyFromName = (value) => {
 
 const fallbackProjectTitle = (projectName) => {
   const title = String(projectName || "").replace(/\.json$/i, "").trim();
-  return title || "Untitled project";
+  return title || "Без названия";
 };
 
 const sanitizeIconName = (value) => {
@@ -513,7 +513,7 @@ const registerDeploymentIdentity = async (identity) => {
     })
   });
   if (!response.ok) {
-    throw new Error(await parseResponseMessage(response, "Device registration failed"));
+    throw new Error(await parseResponseMessage(response, "Не удалось зарегистрировать устройство"));
   }
 };
 
@@ -524,19 +524,19 @@ const unregisterDeviceByKey = async (deviceKey) => {
     method: "DELETE"
   });
   if (!response.ok) {
-    throw new Error(await parseResponseMessage(response, "Device unregister failed"));
+    throw new Error(await parseResponseMessage(response, "Не удалось удалить регистрацию устройства"));
   }
 };
 
 const loadProjectDataForDeployment = async (projectName) => {
   const response = await addonFetch(`projects/load?name=${encodeURIComponent(projectName)}`);
   if (!response.ok) {
-    throw new Error(await parseResponseMessage(response, "Failed to load project"));
+    throw new Error(await parseResponseMessage(response, "Не удалось загрузить проект"));
   }
   const payload = await response.json();
   const data = payload?.data;
   if (!data || typeof data !== "object") {
-    throw new Error("Invalid project payload");
+    throw new Error("Некорректные данные проекта");
   }
   return JSON.parse(JSON.stringify(data));
 };
@@ -553,7 +553,7 @@ const saveProjectDataForDeployment = async (projectName, data) => {
     })
   });
   if (!response.ok) {
-    throw new Error(await parseResponseMessage(response, "Failed to save project deployment state"));
+    throw new Error(await parseResponseMessage(response, "Не удалось сохранить состояние развертывания проекта"));
   }
 };
 
@@ -643,7 +643,7 @@ const sanitizeLastEditedAt = (value) => {
 
 const formatLastEditedAt = (value) => {
   const normalized = sanitizeLastEditedAt(value);
-  if (!normalized) return "No save timestamp";
+  if (!normalized) return "Нет отметки сохранения";
   const date = new Date(normalized);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -870,7 +870,7 @@ const persistProjectsIndex = async () => {
     }
     saveMessage.value = "";
   } catch (error) {
-    saveMessage.value = `Cannot save projects.json: ${error.message}`;
+    saveMessage.value = `Не удалось сохранить projects.json: ${error.message}`;
   }
 };
 
@@ -980,7 +980,7 @@ const loadDashboardData = async () => {
       await persistProjectsIndex();
     }
   } catch (error) {
-    errorMessage.value = `Unable to load projects: ${error.message}`;
+    errorMessage.value = `Не удалось загрузить проекты: ${error.message}`;
   } finally {
     loading.value = false;
   }
@@ -1199,7 +1199,7 @@ const readCustomizationFromProject = (projectName) => {
 
 const customizeProjectTitle = computed(() => {
   const projectName = customizeProjectName.value;
-  if (!projectName) return "Project";
+  if (!projectName) return "Проект";
   return projectDisplayNames.value.get(projectName) || fallbackProjectTitle(projectName);
 });
 
@@ -1209,7 +1209,7 @@ const customizePreviewYamlName = computed(() => {
 
 const customizePreviewDateLabel = computed(() => {
   const projectName = customizeProjectName.value;
-  if (!projectName) return "No save timestamp";
+  if (!projectName) return "Нет отметки сохранения";
   const placement = projectPlacementByName.value.get(projectName);
   return formatLastEditedAt(placement?.lastEditedAt || "");
 });
@@ -1333,11 +1333,11 @@ const requestCustomizeProjectFromMenu = () => {
 const persistProjectCustomization = async (projectName, tile) => {
   const response = await fetchJson(projectLoadUrl(projectName));
   if (!response.ok) {
-    throw new Error(await parseResponseMessage(response, "Failed to load project for customization"));
+    throw new Error(await parseResponseMessage(response, "Не удалось загрузить проект для кастомизации"));
   }
   const payload = await response.json();
   if (!payload?.data || typeof payload.data !== "object") {
-    throw new Error("Invalid project payload");
+    throw new Error("Некорректные данные проекта");
   }
 
   const nextData = JSON.parse(JSON.stringify(payload.data));
@@ -1365,7 +1365,7 @@ const persistProjectCustomization = async (projectName, tile) => {
     })
   });
   if (!saveResponse.ok) {
-    throw new Error(await parseResponseMessage(saveResponse, "Failed to save project customization"));
+    throw new Error(await parseResponseMessage(saveResponse, "Не удалось сохранить кастомизацию проекта"));
   }
 };
 
@@ -1393,7 +1393,7 @@ const applyProjectCustomization = async () => {
     emitProjectsUpdated();
     closeCustomizeModal(true);
   } catch (error) {
-    customizeError.value = error instanceof Error ? error.message : "Customization save failed";
+    customizeError.value = error instanceof Error ? error.message : "Не удалось сохранить кастомизацию";
   } finally {
     customizeBusy.value = false;
   }
@@ -1416,18 +1416,18 @@ const openProjectInBuilder = async (projectName) => {
   try {
     const response = await fetchJson(projectLoadUrl(projectName));
     if (!response.ok) {
-      throw new Error(await parseResponseMessage(response, "Failed to load project for Builder"));
+      throw new Error(await parseResponseMessage(response, "Не удалось загрузить проект для Конструктора"));
     }
     const payload = await response.json();
     if (!payload?.data || typeof payload.data !== "object") {
-      throw new Error("Invalid project payload");
+      throw new Error("Некорректные данные проекта");
     }
 
     writeBuilderSessionConfig(payload.data);
     writeBuilderSessionProjectName(payload?.name || projectName);
     await router.push({ name: "builder" });
   } catch (error) {
-    dashboardActionError.value = error instanceof Error ? error.message : "Failed to open project in Builder";
+    dashboardActionError.value = error instanceof Error ? error.message : "Не удалось открыть проект в Конструкторе";
   } finally {
     openBuilderRunning.value = false;
   }
@@ -1442,7 +1442,7 @@ const openBlankBuilder = async () => {
     localStorage.removeItem(BUILDER_PROJECT_NAME_STORAGE_KEY);
     await router.push({ name: "builder" });
   } catch (error) {
-    dashboardActionError.value = error instanceof Error ? error.message : "Failed to open new project in Builder";
+    dashboardActionError.value = error instanceof Error ? error.message : "Не удалось открыть новый проект в Конструкторе";
   } finally {
     openBuilderRunning.value = false;
   }
@@ -1686,14 +1686,14 @@ const confirmRemoveProject = async () => {
       method: "DELETE"
     });
     if (!response.ok && response.status !== 404) {
-      throw new Error(await parseResponseMessage(response, "Project delete failed"));
+      throw new Error(await parseResponseMessage(response, "Не удалось удалить проект"));
     }
 
     removeProjectFromLocalState(projectName);
     emitProjectsUpdated();
     await refreshProjectsFromBackend();
   } catch (error) {
-    dashboardActionError.value = error instanceof Error ? error.message : "Project delete failed";
+    dashboardActionError.value = error instanceof Error ? error.message : "Не удалось удалить проект";
   } finally {
     projectPurgeRunning.value = false;
   }
@@ -1755,7 +1755,7 @@ const exportYaml = async () => {
     const payload = await response.json();
     const yamlText = String(payload?.yaml || "").trim();
     if (!yamlText) {
-      throw new Error("Project does not contain exportable YAML.");
+      throw new Error("Проект не содержит экспортируемого YAML.");
     }
     const blob = new Blob([yamlText], { type: "text/yaml" });
     const url = URL.createObjectURL(blob);
@@ -1765,7 +1765,7 @@ const exportYaml = async () => {
     anchor.click();
     URL.revokeObjectURL(url);
   } catch (error) {
-    dashboardActionError.value = error instanceof Error ? error.message : "Export failed";
+    dashboardActionError.value = error instanceof Error ? error.message : "Экспорт не удался";
   }
 };
 
@@ -1773,19 +1773,19 @@ const ensureSelectedProjectSavedBeforeInstall = async () => {
   const projectName = String(selectedProjectName.value || "").trim();
   const yamlName = selectedYamlName.value;
   if (!projectName || !yamlName) {
-    throw new Error("No project selected for install.");
+    throw new Error("Проект не выбран для установки.");
   }
 
   try {
     const loadResponse = await addonFetch(`projects/load?name=${encodeURIComponent(projectName)}`);
     if (!loadResponse.ok) {
-      throw new Error(await parseResponseMessage(loadResponse, "Failed to load project before install"));
+      throw new Error(await parseResponseMessage(loadResponse, "Не удалось загрузить проект перед установкой"));
     }
 
     const payload = await loadResponse.json();
     const data = payload?.data;
     if (!data || typeof data !== "object") {
-      throw new Error("Invalid project payload");
+      throw new Error("Некорректные данные проекта");
     }
 
     const nextData = JSON.parse(JSON.stringify(data));
@@ -1821,13 +1821,13 @@ const ensureSelectedProjectSavedBeforeInstall = async () => {
         })
       });
       if (!saveResponse.ok) {
-        throw new Error(await parseResponseMessage(saveResponse, "Project save failed before install"));
+        throw new Error(await parseResponseMessage(saveResponse, "Не удалось сохранить проект перед установкой"));
       }
     }
 
     return true;
   } catch (error) {
-    throw (error instanceof Error ? error : new Error("Install preparation failed"));
+    throw (error instanceof Error ? error : new Error("Не удалось подготовить установку"));
   }
 };
 

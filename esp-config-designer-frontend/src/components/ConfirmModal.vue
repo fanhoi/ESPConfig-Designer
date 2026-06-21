@@ -18,19 +18,19 @@ const props = defineProps({
   open: Boolean,
   title: {
     type: String,
-    default: "Confirm"
+    default: "Подтверждение"
   },
   message: {
     type: String,
-    default: "Are you sure?"
+    default: "Вы уверены?"
   },
   confirmText: {
     type: String,
-    default: "Yes"
+    default: "Да"
   },
   cancelText: {
     type: String,
-    default: "Cancel"
+    default: "Отмена"
   }
 });
 const emit = defineEmits(["confirm", "cancel"]);

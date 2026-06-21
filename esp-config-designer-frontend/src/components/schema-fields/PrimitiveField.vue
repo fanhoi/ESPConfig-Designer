@@ -14,7 +14,7 @@
         :href="field.helpUrl"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Field help"
+        aria-label="Справка по полю"
       >
         ?
       </a>
@@ -29,15 +29,15 @@
     <div v-else-if="isIconField" class="schema-input-action-row">
       <input :id="inputId" type="text" :value="iconValue" :placeholder="field.placeholder" @input="onIconInput" />
       <button type="button" class="secondary compact schema-icon-btn" @click="openIconPicker">
-        <img :src="iconButtonUrl" alt="Add icon" />
+        <img :src="iconButtonUrl" alt="Добавить иконку" />
       </button>
       <IconPicker :open="iconPickerOpen" :selected="iconName" :initial-query="iconName" @close="handleIconClose" @select="handleIconSelect" />
     </div>
 
     <div v-else-if="isTemplatableField" class="schema-templatable">
       <div class="schema-templatable-toolbar">
-        <button type="button" class="secondary compact btn-standard" :class="{ 'is-active': templatableMode === 'literal' }" @click="setTemplatableMode('literal')">Value</button>
-        <button type="button" class="secondary compact btn-standard" :class="{ 'is-active': templatableMode === 'lambda' }" @click="setTemplatableMode('lambda')">Lambda</button>
+        <button type="button" class="secondary compact btn-standard" :class="{ 'is-active': templatableMode === 'literal' }" @click="setTemplatableMode('literal')">Значение</button>
+        <button type="button" class="secondary compact btn-standard" :class="{ 'is-active': templatableMode === 'lambda' }" @click="setTemplatableMode('lambda')">Лямбда</button>
       </div>
       <SchemaField
         :field="templatableEditorField"
@@ -118,7 +118,7 @@
 
     <div v-else-if="showInlineAction" class="inline">
       <input :id="inputId" :type="inputType" :value="resolvedValue" :placeholder="field.placeholder" :class="{ 'field-invalid': fieldError }" @input="onInput" />
-      <button type="button" class="secondary icon-button" :aria-label="showSecretAction ? 'Secret reference' : 'Generate'" @click="showSecretAction ? handleSecretClick() : handleGenerate()">
+      <button type="button" class="secondary icon-button" :aria-label="showSecretAction ? 'Ссылка на секрет' : 'Сгенерировать'" @click="showSecretAction ? handleSecretClick() : handleGenerate()">
         <img :src="showSecretAction ? 'https://cdn.jsdelivr.net/npm/@mdi/svg/svg/file-key-outline.svg' : 'https://cdn.jsdelivr.net/npm/@mdi/svg/svg/lock-reset.svg'" alt="" class="icon-button-img" />
       </button>
     </div>
@@ -133,6 +133,7 @@
 </template>
 
 <script setup>
+// Компонент для отображения простых (примитивных) полей ввода
 import GpioField from './GpioField.vue';
 import IconPicker from '../IconPicker.vue';
 import SchemaField from '../SchemaField.vue';

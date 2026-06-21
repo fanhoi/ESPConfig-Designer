@@ -3,7 +3,7 @@
     <div class="dashboard-toolbar-wrap">
       <div class="dashboard-toolbar">
         <button type="button" class="toolbar-mode-toggle" @click="emit('toggle-view-mode')">
-          {{ viewMode === 'folder' ? 'All devices' : 'Folder view' }}
+          {{ viewMode === 'folder' ? 'Все устройства' : 'Вид по папкам' }}
         </button>
         <button type="button" class="toolbar-up-button" :disabled="isRootFolderSelected" @click="emit('go-parent-folder')">
           <img :src="arrowUpIconUrl" alt="" aria-hidden="true" />
@@ -25,7 +25,7 @@
           <input
             id="dashboardSearch"
             type="search"
-            placeholder="Search files, folders"
+            placeholder="Поиск файлов, папок"
             autocomplete="off"
             :value="searchText"
             @input="emit('update:searchText', $event.target.value)"
@@ -34,16 +34,16 @@
       </div>
     </div>
 
-    <div v-if="loading" class="dashboard-state">Loading projects...</div>
+    <div v-if="loading" class="dashboard-state">Загрузка проектов...</div>
     <div v-else-if="errorMessage" class="dashboard-state dashboard-state--error">{{ errorMessage }}</div>
     <div v-else-if="saveMessage" class="dashboard-state dashboard-state--warning">{{ saveMessage }}</div>
     <template v-else>
       <div class="dashboard-content-actions">
-        <button type="button" class="btn-standard dashboard-new-device" @click="emit('open-blank-builder')">New device</button>
+        <button type="button" class="btn-standard dashboard-new-device" @click="emit('open-blank-builder')">Новое устройство</button>
       </div>
       <section :ref="entriesPaneRef" class="entries-pane">
         <section v-if="viewMode === 'folder' && visibleFolderEntries.length" class="entries-section">
-          <h3 class="entries-title">Folders</h3>
+          <h3 class="entries-title">Папки</h3>
           <div class="folders-grid">
             <article
               v-for="entry in visibleFolderEntries"
@@ -59,13 +59,13 @@
                 <span class="project-icon project-icon--folder"><img :src="entry.icon" alt="" aria-hidden="true" /></span>
                 <h4>{{ entry.title }}</h4>
               </div>
-              <p class="folder-tile-hint">{{ entry.folderCount }} folders - {{ entry.projectCount }} projects</p>
+              <p class="folder-tile-hint">папок: {{ entry.folderCount }} - проектов: {{ entry.projectCount }}</p>
             </article>
           </div>
         </section>
 
         <section v-if="visibleProjectEntries.length" class="entries-section">
-          <h3 class="entries-title">{{ viewMode === 'all' ? 'All devices' : 'Projects' }}</h3>
+          <h3 class="entries-title">{{ viewMode === 'all' ? 'Все устройства' : 'Проекты' }}</h3>
           <div class="projects-grid">
             <ProjectTileCard
               v-for="entry in visibleProjectEntries"
@@ -91,7 +91,7 @@
         </section>
 
         <article v-if="visibleFolderEntries.length === 0 && visibleProjectEntries.length === 0" class="project-empty">
-          No folders or projects match your search.
+          Нет папок или проектов, соответствующих вашему поиску.
         </article>
       </section>
     </template>

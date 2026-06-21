@@ -4,11 +4,11 @@
       :open="leaveModalOpen"
       :busy="leaveModalBusy"
       :error-message="leaveModalError"
-      title="Unsaved project"
-      message="Current Builder project has unsaved changes. Save before opening Dashboard?"
-      save-text="Save"
-      discard-text="Discard"
-      cancel-text="Cancel"
+      title="Несохраненный проект"
+      message="Текущий проект в Конструкторе содержит несохраненные изменения. Сохранить перед переходом на Панель управления?"
+      save-text="Сохранить"
+      discard-text="Сбросить"
+      cancel-text="Отмена"
       @save="handleLeaveModalSave"
       @discard="handleLeaveModalDiscard"
       @cancel="handleLeaveModalCancel"
@@ -43,7 +43,7 @@
           :disabled="!topbarCanEdit || topbarBusy"
           @click="triggerDashboardEdit"
         >
-          Edit
+          Редактировать
         </button>
         <button
           v-if="isBuilderRoute"
@@ -51,7 +51,7 @@
           :disabled="!canTopbarSave"
           @click="triggerBuilderSave"
         >
-          Save
+          Сохранить
         </button>
         <button
           v-if="showActionButtons"
@@ -59,7 +59,7 @@
           :disabled="!topbarCanValidate || topbarBusy"
           @click="triggerValidate"
         >
-          Validate
+          Проверить
         </button>
         <div v-if="showActionButtons" ref="installMenuRef" class="topbar-install-menu">
           <button
@@ -67,19 +67,19 @@
             :disabled="!topbarCanInstall || topbarBusy"
             @click="toggleInstallMenu"
           >
-            Install
+            Установить
           </button>
           <div v-if="installMenuOpen" class="topbar-install-dropdown" role="menu" aria-label="Install options">
-            <button type="button" role="menuitem" @click="selectInstallOption('serial')">Serial Port</button>
+            <button type="button" role="menuitem" @click="selectInstallOption('serial')">Последовательный порт</button>
             <button
               type="button"
               role="menuitem"
               :disabled="!topbarCanUseOta"
               @click="selectInstallOption('ota')"
             >
-              Wireless (OTA)
+              По воздуху (OTA)
             </button>
-            <button type="button" role="menuitem" @click="selectInstallOption('download')">Download Binary</button>
+            <button type="button" role="menuitem" @click="selectInstallOption('download')">Скачать прошивку (bin)</button>
           </div>
         </div>
         <button
@@ -88,7 +88,7 @@
           :disabled="!topbarCanLogs || topbarBusy"
           @click="triggerBuilderLogs"
         >
-          Logs
+          Логи
         </button>
       </div>
     </header>
@@ -107,17 +107,17 @@ import UnsavedChangesModal from "./components/UnsavedChangesModal.vue";
 const appVersion = __APP_VERSION__;
 const socialLinks = [
   {
-    label: "Watch on YouTube",
+    label: "Смотреть на YouTube",
     href: "https://youtu.be/CrP15p8e_z8",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/youtube.svg"
   },
   {
-    label: "Open GitHub repository",
+    label: "Открыть репозиторий GitHub",
     href: "https://github.com/sokolsok/ESPConfig-Designer",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/github.svg"
   },
   {
-    label: "Support on PayPal",
+    label: "Поддержать на PayPal",
     href: "https://www.paypal.com/paypalme/ss4h",
     icon: "https://cdn.jsdelivr.net/npm/@mdi/svg/svg/paypal.svg"
   }
@@ -247,7 +247,7 @@ const triggerBuilderSave = async () => {
   try {
     const result = await requestBuilderSave();
     if (!result.success) {
-      console.error(result.message || "Project save failed.");
+      console.error(result.message || "Ошибка при сохранении проекта.");
     }
   } finally {
     builderSaveRunning.value = false;
@@ -273,7 +273,7 @@ const requestBuilderSave = () => {
   return new Promise((resolve) => {
     const timeoutId = window.setTimeout(() => {
       window.removeEventListener("app:builder-save-response", onResponse);
-      resolve({ success: false, message: "Builder save request timed out." });
+      resolve({ success: false, message: "Время ожидания запроса сохранения в Конструкторе истекло." });
     }, 30000);
 
     const onResponse = (event) => {
@@ -312,7 +312,7 @@ const handleLeaveModalSave = async () => {
   const result = await requestBuilderSave();
   if (!result.success) {
     leaveModalBusy.value = false;
-    leaveModalError.value = result.message || "Project save failed.";
+    leaveModalError.value = result.message || "Ошибка при сохранении проекта.";
     return;
   }
   leaveModalOpen.value = false;

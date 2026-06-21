@@ -12,7 +12,7 @@
           {{ discardText }}
         </button>
         <button type="button" :disabled="busy" @click="$emit('save')">
-          {{ busy ? "Saving..." : saveText }}
+          {{ busy ? "Сохранение..." : saveText }}
         </button>
       </div>
     </div>
@@ -27,23 +27,23 @@ const props = defineProps({
   busy: Boolean,
   title: {
     type: String,
-    default: "Unsaved changes"
+    default: "Несохраненные изменения"
   },
   message: {
     type: String,
-    default: "You have unsaved changes. Save before leaving?"
+    default: "У вас есть несохраненные изменения. Сохранить перед выходом?"
   },
   saveText: {
     type: String,
-    default: "Save"
+    default: "Сохранить"
   },
   discardText: {
     type: String,
-    default: "Discard"
+    default: "Сбросить"
   },
   cancelText: {
     type: String,
-    default: "Cancel"
+    default: "Отмена"
   },
   errorMessage: {
     type: String,

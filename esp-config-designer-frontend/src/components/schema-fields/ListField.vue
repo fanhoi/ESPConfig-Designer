@@ -7,12 +7,12 @@
       <div class="schema-list-title">
         <span>{{ fieldLabel }}</span>
         <button type="button" class="secondary compact btn-add schema-list-add" @click="handleAddListItem">
-          Add
+          Добавить
         </button>
         <span v-if="field.required" class="schema-required">*</span>
       </div>
     </div>
-    <div v-if="listValue.length === 0" class="note">No items yet</div>
+    <div v-if="listValue.length === 0" class="note">Элементы отсутствуют</div>
     <div v-for="(item, index) in listValue" :key="index" class="schema-list-item">
       <template v-if="isCatalogListField">
         <div class="components-header">
@@ -51,7 +51,7 @@
             @update="(payload) => updateCatalogEntryConfig(index, payload)"
           />
         </div>
-        <div v-else class="note">Brak pol konfiguracyjnych.</div>
+        <div v-else class="note">Нет полей конфигурации.</div>
         <div v-if="item?.definitionError" class="field-error">
           {{ item.definitionError }}
           <button
@@ -60,7 +60,7 @@
             :disabled="retryActionIndex === index"
             @click="retryCatalogEntryDefinition(index)"
           >
-            {{ retryActionIndex === index ? 'Retrying...' : 'Retry' }}
+            {{ retryActionIndex === index ? 'Повтор...' : 'Повторить' }}
           </button>
         </div>
       </template>
@@ -158,6 +158,7 @@
 </template>
 
 <script setup>
+// Компонент для отображения и редактирования динамических списков элементов
 import { computed, ref, watch } from 'vue';
 import GpioField from './GpioField.vue';
 import SchemaField from '../SchemaField.vue';
@@ -231,10 +232,10 @@ const isCompactListField = computed(() => props.field?.listStyle === 'compact' |
 const listLevelClass = computed(() => `list-group list-${props.field?.lvl?.toLowerCase() || 'simple'}`);
 const listRemoveLabel = computed(() => {
   if (typeof props.field?.removeLabel === 'string' && props.field.removeLabel.trim()) return props.field.removeLabel.trim();
-  if (isActionListField.value) return 'Remove action';
-  if (isFilterListField.value) return 'Remove filter';
-  if (props.field?.key === 'on_value_range') return 'Remove whole range';
-  return 'Remove';
+  if (isActionListField.value) return 'Удалить действие';
+  if (isFilterListField.value) return 'Удалить фильтр';
+  if (props.field?.key === 'on_value_range') return 'Удалить весь диапазон';
+  return 'Удалить';
 });
 
 const updateNestedValue = (target, path, value) => {
@@ -277,12 +278,12 @@ const syncHiddenSelectedOption = (selectElement, selectedValue = selectElement?.
 };
 const hasExplicitListItemDefault = computed(() => Object.prototype.hasOwnProperty.call(props.field.item || {}, 'default'));
 const booleanListDisplayValue = (item) => (item === true ? 'true' : item === false ? 'false' : 'false');
-const booleanListTrueOptionLabel = computed(() => hasExplicitListItemDefault.value && props.field.item?.default === true ? 'TRUE (default)' : 'TRUE');
-const booleanListFalseOptionLabel = computed(() => hasExplicitListItemDefault.value && props.field.item?.default === false ? 'FALSE (default)' : 'FALSE');
+const booleanListTrueOptionLabel = computed(() => hasExplicitListItemDefault.value && props.field.item?.default === true ? 'TRUE (по умолчанию)' : 'TRUE');
+const booleanListFalseOptionLabel = computed(() => hasExplicitListItemDefault.value && props.field.item?.default === false ? 'FALSE (по умолчанию)' : 'FALSE');
 const booleanListSelectedLabel = (item) => (booleanListDisplayValue(item) === 'true' ? 'TRUE' : 'FALSE');
 const showSelectedListOption = (item) => item !== undefined && item !== null && String(item) !== '';
 const listSelectedOptionLabel = (item) => String(item ?? '');
-const selectListOptionDropdownLabel = (option) => (!hasExplicitListItemDefault.value ? option : option === props.field.item?.default ? `${option} (default)` : option);
+const selectListOptionDropdownLabel = (option) => (!hasExplicitListItemDefault.value ? option : option === props.field.item?.default ? `${option} (по умолчанию)` : option);
 const onBooleanListSelect = (index, event) => {
   const booleanValue = event.target.value === '__opt_true';
   updateListPrimitive(index, booleanValue);
@@ -312,8 +313,8 @@ let actionHydrationToken = 0;
 
 const ACTION_FALLBACK_FIELDS = Object.freeze([{ key: 'custom_config', label: 'custom_config', type: 'raw_yaml', required: false, lvl: 'advanced', placeholder: 'key: value' }]);
 const CONDITION_FALLBACK_FIELDS = Object.freeze([{ key: 'custom_config', label: 'custom_config', type: 'raw_yaml', required: false, lvl: 'advanced', placeholder: 'condition_key: value' }]);
-const actionDefinitionErrorMessage = (actionId) => `Definition missing for ${actionId || 'this action'}. Using custom_config fallback.`;
-const conditionDefinitionErrorMessage = (conditionId) => `Definition missing for ${conditionId || 'this condition'}. Using custom_config fallback.`;
+const actionDefinitionErrorMessage = (actionId) => `Отсутствует определение для ${actionId || 'этого действия'}. Используется резервная конфигурация custom_config.`;
+const conditionDefinitionErrorMessage = (conditionId) => `Отсутствует определение для ${conditionId || 'этого условия'}. Используется резервная конфигурация custom_config.`;
 const allowedActionDomains = computed(() => {
   if (!isActionListField.value) return null;
   const allowed = Array.isArray(props.field.actions) ? props.field.actions : null;
@@ -327,7 +328,7 @@ const catalogItems = computed(() => {
 });
 const catalogSections = computed(() => isConditionListField.value ? buildConditionSections(catalogItems.value) : isActionListField.value ? buildActionSections(catalogItems.value) : []);
 const useCatalogSections = computed(() => isActionListField.value || isConditionListField.value);
-const catalogPickerTitle = computed(() => isFilterListField.value ? 'Choose filter' : isConditionListField.value ? 'Choose condition' : 'Choose action');
+const catalogPickerTitle = computed(() => isFilterListField.value ? 'Выберите фильтр' : isConditionListField.value ? 'Выберите условие' : 'Выберите действие');
 const catalogHelpUrl = computed(() => {
   if (isFilterListField.value) {
     return props.field.item?.extends === 'base_binary_sensor_filters.json'
@@ -336,9 +337,9 @@ const catalogHelpUrl = computed(() => {
   }
   return isConditionListField.value ? 'https://esphome.io/automations/actions/#conditions' : 'https://esphome.io/automations/actions/';
 });
-const catalogDocLabel = computed(() => isFilterListField.value ? 'Filter documentation' : isConditionListField.value ? 'Condition documentation' : 'Action documentation');
-const catalogSearchPlaceholder = computed(() => isFilterListField.value ? 'Search filters' : isConditionListField.value ? 'Search conditions' : 'Search actions');
-const catalogEmptyLabel = computed(() => isFilterListField.value ? 'No filters to show.' : isConditionListField.value ? 'No conditions to show.' : 'No actions to show.');
+const catalogDocLabel = computed(() => isFilterListField.value ? 'Документация по фильтрам' : isConditionListField.value ? 'Документация по условиям' : 'Документация по действиям');
+const catalogSearchPlaceholder = computed(() => isFilterListField.value ? 'Поиск фильтров' : isConditionListField.value ? 'Поиск условий' : 'Поиск действий');
+const catalogEmptyLabel = computed(() => isFilterListField.value ? 'Нет фильтров для отображения.' : isConditionListField.value ? 'Нет условий для отображения.' : 'Нет действий для отображения.');
 
 const ensureCatalogLoaded = async () => {
   if (!isCatalogListField.value || catalogData.value.length || catalogLoading.value) return;
@@ -447,7 +448,7 @@ const updateCatalogEntryConfig = (index, { path, value }) => {
 const entryDefinition = (entry) => catalogData.value.find((catalogItem) => catalogItem.id === entry?.type);
 const entryLabel = (entry) => {
   const def = entryDefinition(entry);
-  const fallback = isFilterListField.value ? 'Filter' : isConditionListField.value ? 'Condition' : 'Action';
+  const fallback = isFilterListField.value ? 'Фильтр' : isConditionListField.value ? 'Условие' : 'Действие';
   return def?.label || entry?.type || fallback;
 };
 const entryFields = (entry) => {

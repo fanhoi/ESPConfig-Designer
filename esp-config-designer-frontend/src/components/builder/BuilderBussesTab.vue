@@ -2,14 +2,14 @@
   <div class="module-card">
     <div class="components-header">
       <div class="components-title">
-        <h2>Busses</h2>
+        <h2>Шины</h2>
         <a
           v-if="activeTabHelpUrl"
           class="filter-help"
           :href="activeTabHelpUrl"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Documentation"
+          aria-label="Документация"
         >
           ?
         </a>
@@ -17,7 +17,7 @@
     </div>
     <div class="module-card__body">
       <div class="notice notice--warning">
-        Components can require specific bus configuration. Use this tab to configure the required bus manually.
+        Компонентам могут требоваться определенные настройки шин. Используйте эту вкладку для ручной настройки нужной шины.
       </div>
       <div class="module-tabs">
         <button

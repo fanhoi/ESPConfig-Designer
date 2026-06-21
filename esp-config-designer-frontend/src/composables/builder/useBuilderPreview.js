@@ -187,7 +187,7 @@ export const useBuilderPreview = ({
     }
   };
 
-  const copyLabel = computed(() => (copySuccess.value ? "Copied" : "Copy code"));
+  const copyLabel = computed(() => (copySuccess.value ? "Скопировано" : "Копировать код"));
 
   const handleCopyPreview = async () => {
     const text = previewContent.value || "";

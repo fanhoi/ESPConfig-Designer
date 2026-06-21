@@ -2,9 +2,9 @@
   <div v-if="open" class="asset-manager-backdrop" @click.self="emit('close')">
     <section class="asset-manager" role="dialog" aria-modal="true" aria-label="Asset Manager" @click="openItemMenuKey = ''">
       <header class="asset-manager__header">
-        <h3>Asset Manager</h3>
+        <h3>Менеджер ресурсов</h3>
         <button type="button" class="secondary compact" :disabled="loading || working" @click="openUploadPicker">
-          Upload
+          Загрузить
         </button>
       </header>
 
@@ -16,7 +16,7 @@
             :class="{ 'asset-manager__tab--active': activeKind === 'images' }"
             @click="activeKind = 'images'"
           >
-            Images
+            Изображения
           </button>
           <button
             type="button"
@@ -24,7 +24,7 @@
             :class="{ 'asset-manager__tab--active': activeKind === 'fonts' }"
             @click="activeKind = 'fonts'"
           >
-            Fonts
+            Шрифты
           </button>
           <button
             type="button"
@@ -32,12 +32,12 @@
             :class="{ 'asset-manager__tab--active': activeKind === 'audio' }"
             @click="activeKind = 'audio'"
           >
-            Audio
+            Аудио
           </button>
         </div>
         <label class="asset-manager__search" for="assetManagerSearch">
           <img class="asset-manager__search-icon" src="https://cdn.jsdelivr.net/npm/@mdi/svg/svg/magnify.svg" alt="" />
-          <input id="assetManagerSearch" v-model="search" type="search" placeholder="Search files" />
+          <input id="assetManagerSearch" v-model="search" type="search" placeholder="Поиск файлов" />
         </label>
       </div>
 
@@ -65,21 +65,21 @@
               class="asset-item__menu-toggle"
               :disabled="loading || working"
               @click="toggleItemMenu(item)"
-              aria-label="Asset actions"
+              aria-label="Действия с ресурсом"
             >
               ...
             </button>
             <div v-if="openItemMenuKey === menuKey(item)" class="asset-item__menu">
-              <button type="button" :disabled="loading || working" @click="handleRename(item)">Rename</button>
-              <button type="button" :disabled="loading || working" @click="handleDelete(item)">Delete</button>
+              <button type="button" :disabled="loading || working" @click="handleRename(item)">Переименовать</button>
+              <button type="button" :disabled="loading || working" @click="handleDelete(item)">Удалить</button>
             </div>
           </div>
         </div>
-        <div v-if="!filteredItems.length" class="asset-manager__empty">No files found.</div>
+        <div v-if="!filteredItems.length" class="asset-manager__empty">Файлы не найдены.</div>
       </div>
 
       <footer class="asset-manager__footer">
-        <button type="button" class="secondary compact" @click="emit('close')">Close</button>
+        <button type="button" class="secondary compact" @click="emit('close')">Закрыть</button>
       </footer>
     </section>
   </div>
@@ -182,7 +182,7 @@ const handleRename = (item) => {
   openItemMenuKey.value = "";
   const current = String(item?.file || "");
   if (!current) return;
-  const next = window.prompt("New file name", current);
+  const next = window.prompt("Новое имя файла", current);
   if (!next) return;
   const trimmed = next.trim();
   if (!trimmed || trimmed === current) return;
@@ -194,7 +194,7 @@ const handleDelete = (item) => {
   openItemMenuKey.value = "";
   const file = String(item?.file || "");
   if (!file) return;
-  const confirmed = window.confirm(`Delete ${file}?`);
+  const confirmed = window.confirm(`Удалить ${file}?`);
   if (!confirmed) return;
   const kind = ALLOWED_KINDS.includes(activeKind.value) ? activeKind.value : "images";
   emit("delete-asset", { kind, file });

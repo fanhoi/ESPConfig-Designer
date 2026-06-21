@@ -8,10 +8,10 @@
     <div class="icon-picker-card">
       <header class="icon-picker-header">
         <div>
-          <h3>Choose icon</h3>
-          <p class="icon-picker-sub">Search the Material Design Icons catalog.</p>
+          <h3>Выбор иконки</h3>
+          <p class="icon-picker-sub">Поиск по каталогу Material Design Icons.</p>
         </div>
-        <button type="button" class="secondary compact" @click="handleClose">Close</button>
+        <button type="button" class="secondary compact" @click="handleClose">Закрыть</button>
       </header>
 
       <div class="icon-picker-search">
@@ -19,14 +19,14 @@
           ref="searchInput"
           v-model="query"
           type="text"
-          placeholder="Search icons"
+          placeholder="Поиск иконок"
           :disabled="isLoading"
         />
         <div class="icon-picker-meta">
-          <span v-if="isLoading">Loading icons...</span>
+          <span v-if="isLoading">Загрузка иконок...</span>
           <span v-else-if="loadError">{{ loadError }}</span>
-          <span v-else-if="resultCount">Results: {{ resultCount }}</span>
-          <span v-else>Type to search</span>
+          <span v-else-if="resultCount">Результатов: {{ resultCount }}</span>
+          <span v-else>Введите текст для поиска</span>
         </div>
       </div>
 
@@ -43,7 +43,7 @@
           <span>{{ icon.name }}</span>
         </button>
       </div>
-      <div v-else-if="!isLoading" class="icon-empty">No icons to show.</div>
+      <div v-else-if="!isLoading" class="icon-empty">Нет иконок для отображения.</div>
     </div>
   </div>
 </template>
@@ -141,7 +141,7 @@ const loadMeta = async () => {
     allIcons.value = Array.isArray(data) ? data.filter((icon) => !icon.deprecated) : [];
     hasLoaded.value = true;
   } catch (error) {
-    loadError.value = "Failed to load icons";
+    loadError.value = "Не удалось загрузить иконки";
   } finally {
     isLoading.value = false;
   }

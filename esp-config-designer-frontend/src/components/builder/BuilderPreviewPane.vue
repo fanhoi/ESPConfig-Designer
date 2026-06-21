@@ -4,7 +4,7 @@
       <button
         class="preview-scroll"
         type="button"
-        aria-label="Scroll tabs left"
+        aria-label="Прокрутить вкладки влево"
         :disabled="!canScrollLeft"
         @click="scrollPreviewTabs(-1)"
       >
@@ -25,7 +25,7 @@
       <button
         class="preview-scroll"
         type="button"
-        aria-label="Scroll tabs right"
+        aria-label="Прокрутить вкладки вправо"
         :disabled="!canScrollRight"
         @click="scrollPreviewTabs(1)"
       >
@@ -53,31 +53,31 @@
         >
           <img
             src="https://cdn.jsdelivr.net/npm/@mdi/svg/svg/content-copy.svg"
-            alt="Copy code"
+            alt="Копировать код"
           />
           <span>{{ copyLabel }}</span>
         </button>
         <div v-if="showDisplayAutomationNotice" class="preview-callout hljs">
           <span class="hljs-comment">
-            # Interval section live in the Automation tab -
+            # Секция интервала находится на вкладке Автоматизация -
             <a
               href="#"
               class="preview-callout-link"
               @click.prevent="switchPreviewTab('automation')"
             >
-              LINK
+              ССЫЛКА
             </a>
           </span>
         </div>
         <div v-if="showHubNotice" class="preview-callout hljs">
           <span class="hljs-comment">
-            # One or more components require HUB configuration -
+            # Одному или нескольким компонентам требуется настройка хаба (HUB) -
             <a
               href="#"
               class="preview-callout-link"
               @click.prevent="switchPreviewTab('hubs')"
             >
-              LINK
+              ССЫЛКА
             </a>
           </span>
         </div>

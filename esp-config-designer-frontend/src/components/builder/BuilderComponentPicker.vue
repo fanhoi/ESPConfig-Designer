@@ -5,11 +5,11 @@
         <input
           id="componentsSearch"
           :value="componentsQuery"
-          placeholder="Search components"
+          placeholder="Поиск компонентов"
           @input="emit('update:componentsQuery', $event.target.value)"
         />
         <div class="components-available-filter">
-          <span class="components-available-filter-label">Available only</span>
+          <span class="components-available-filter-label">Только доступные</span>
           <button
             type="button"
             class="components-available-filter-switch"
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div v-if="componentCatalogError" class="notice notice--error components-error">
-        {{ componentCatalogError?.message || "Component catalog not available" }}
+        {{ componentCatalogError?.message || "Каталог компонентов недоступен" }}
       </div>
       <div v-if="componentsImportError" class="notice notice--error components-error">
         {{ componentsImportError }}
@@ -71,7 +71,7 @@
                 class="component-item"
                 :class="{ selected: selectedComponentKeys.has(item.catalogKey || item.path || item.id), unavailable: !isComponentAvailable(item) }"
                 :disabled="!isComponentAvailable(item) || isResolvingComponentSelection"
-                :title="!isComponentAvailable(item) ? 'Component not available' : ''"
+                :title="!isComponentAvailable(item) ? 'Компонент недоступен' : ''"
                 @click="emit('select-component', item)"
               >
                 <span>{{ item.name }}</span>
@@ -81,7 +81,7 @@
                 v-if="isSavedCustomComponentItem(item)"
                 type="button"
                 class="component-item-delete"
-                title="Delete saved component"
+                title="Удалить сохраненный компонент"
                 :disabled="deletingCustomComponentId === item.id"
                 @click.stop="emit('delete-saved-custom-component', item)"
               >
@@ -106,7 +106,7 @@
                   type="button"
                   :class="{ selected: selectedComponentKeys.has(item.catalogKey || item.path || item.id), unavailable: !isComponentAvailable(item) }"
                   :disabled="!isComponentAvailable(item) || isResolvingComponentSelection"
-                  :title="!isComponentAvailable(item) ? 'Component not available' : ''"
+                  :title="!isComponentAvailable(item) ? 'Компонент недоступен' : ''"
                   @click="emit('select-component', item)"
                 >
                   <span>{{ item.name }}</span>
@@ -116,7 +116,7 @@
                   v-if="isSavedCustomComponentItem(item)"
                   type="button"
                   class="component-item-delete"
-                  title="Delete saved component"
+                  title="Удалить сохраненный компонент"
                   :disabled="deletingCustomComponentId === item.id"
                   @click.stop="emit('delete-saved-custom-component', item)"
                 >

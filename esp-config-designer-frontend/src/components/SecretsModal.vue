@@ -2,7 +2,7 @@
   <div v-if="open" class="secrets-modal-overlay" @click.self="emit('close')">
     <section class="secrets-modal" role="dialog" aria-modal="true" aria-label="Secrets">
       <header class="secrets-modal-header">
-        <h3>Secrets</h3>
+        <h3>Секреты</h3>
       </header>
 
       <div class="secrets-modal-body">
@@ -26,10 +26,10 @@
 
       <footer class="secrets-modal-footer">
         <button type="button" class="btn-standard" :disabled="!canSave" @click="emit('save', draft)">
-          Save
+          Сохранить
         </button>
         <button type="button" class="btn-standard secondary" :disabled="saving" @click="emit('close')">
-          Close
+          Закрыть
         </button>
       </footer>
     </section>
@@ -91,12 +91,12 @@ const highlightedContent = computed(() => {
 });
 
 const formatYamlError = (error) => {
-  const message = error?.message || "Invalid YAML syntax";
+  const message = error?.message || "Неверный синтаксис YAML";
   const mark = error?.mark;
   if (!mark || !Number.isFinite(mark.line) || !Number.isFinite(mark.column)) {
     return message;
   }
-  return `${message} (line ${mark.line + 1}, column ${mark.column + 1})`;
+  return `${message} (строка ${mark.line + 1}, колонка ${mark.column + 1})`;
 };
 
 const validateDraft = () => {
