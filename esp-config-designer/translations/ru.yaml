@@ -1,0 +1,4 @@
+configuration:
+  use_esphome_shared_path:
+    name: Использовать общий путь ESPHome
+    description: Сохранять проекты, ресурсы и файлы YAML в папке /config/esphome. Отключите, чтобы хранить данные независимо в /config/ecd (рекомендуется).

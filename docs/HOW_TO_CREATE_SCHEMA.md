@@ -1,224 +1,224 @@
-# How To Create A Schema
+# Как создать схему
 
-This document gives a high-level overview of how custom component schemas work in ESPConfig Designer.
+Этот документ содержит высокоуровневый обзор того, как работают схемы пользовательских компонентов в ESPConfig Designer.
 
-It is intended as an introduction for users who want to create their own component schema without needing to understand every internal detail of the full schema system.
-
----
-
-## What A Schema Is
-
-A schema describes how a component should appear in the Builder and how its configuration should later be converted into ESPHome YAML.
-
-In practice, a schema connects three things:
-
-- the visual form shown to the user
-- the saved project configuration
-- the generated ESPHome YAML
-
-A good schema should make the Builder easy to use while still matching the structure expected by ESPHome.
+Он предназначен в качестве введения для пользователей, которые хотят создать собственную схему компонента без необходимости разбираться во всех внутренних деталях системы схем.
 
 ---
 
-## Where Schemas Belong
+## Что такое схема
 
-Component schemas are stored in the frontend public schema directory.
+Схема описывает, как компонент должен отображаться в Конструкторе и как его конфигурация в дальнейшем должна быть преобразована в ESPHome YAML.
 
-The component catalog is responsible for telling the Builder where each schema file is located. When adding a new component, the schema file and the catalog entry must both exist.
+На практике схема связывает три вещи:
 
-The project data should not be treated as the source of truth for schema paths. The catalog is the place where components are registered.
+- визуальную форму, отображаемую пользователю
+- сохраненную конфигурацию проекта
+- сгенерированный ESPHome YAML
 
----
-
-## General Creation Flow
-
-When creating a new schema, start from the ESPHome documentation for the component.
-
-Before writing the schema, identify the general YAML shape of the component:
-
-- a normal platform component under a domain
-- a root-level component
-- a component that depends on a bus, protocol, network feature, or helper component
-- a component that also creates or references shared helper sections
-
-After that, create the schema, register it in the catalog, open it in the Builder, and compare the generated YAML with the ESPHome documentation.
+Хорошая схема должна делать использование Конструктора простым и интуитивно понятным, при этом соответствуя структуре, ожидаемой ESPHome.
 
 ---
 
-## What A Schema Usually Contains
+## Где хранятся схемы
 
-Most schemas define:
+Схемы компонентов хранятся в публичной директории схем фронтенда (public schema directory).
 
-- a unique schema identity
-- the ESPHome domain or component type
-- the fields shown in the Builder
-- optional dependency information
-- optional inheritance from shared base schemas
-- optional metadata such as documentation links or preview grouping
+Каталог компонентов отвечает за указание Конструктору места расположения каждого файла схемы. При добавлении нового компонента должны существовать как файл схемы, так и запись в каталоге.
 
-Fields describe the values the user can edit. They can represent simple values, selections, GPIO pins, nested objects, lists, identifiers, references, lambdas, raw YAML, and other supported input types.
+Данные проекта не должны рассматриваться как первоисточник для путей к схемам. Каталог — это место, где регистрируются компоненты.
 
 ---
 
-## Common Schema Keys
+## Общий процесс создания
 
-These are the most common top-level keys used in component schemas:
+При создании новой схемы начинайте с документации ESPHome для данного компонента.
 
-- `id` - unique identifier of the schema.
-- `domain` - ESPHome YAML domain where the component is emitted.
-- `platform` - platform name used by normal list-style ESPHome components.
-- `helpUrl` - link to related documentation.
-- `fields` - list of fields displayed in the Builder.
-- `extends` - reuses another schema or shared base definition.
-- `requirements` - describes required buses, protocols, systems, networks, or helper components.
-- `renderAs` - changes how the component is emitted when it is not a normal platform entry.
-- `previewGroup` - groups related YAML output in the preview UI.
-- `embedded` - allows a component to emit or manage related helper sections.
-- `platformByBus` - selects a platform name based on the chosen transport.
-- `domainBy` - selects an emitted YAML domain from a field value.
-- `domainMap` - maps field values to emitted YAML domains.
+Перед написанием схемы определите общую структуру YAML компонента:
 
-Most schemas only need a small subset of these keys.
+- обычный компонент платформы под доменом (domain)
+- компонент корневого уровня (root-level component)
+- компонент, зависящий от шины, протокола, функции сети или вспомогательного компонента
+- компонент, который также создает или ссылается на общие вспомогательные разделы (shared helper sections)
+
+После этого создайте схему, зарегистрируйте её в каталоге, откройте в Конструкторе и сравните сгенерированный YAML с документацией ESPHome.
 
 ---
 
-## Common Field Keys
+## Что обычно содержит схема
 
-Fields define individual values or sections inside the Builder form.
+Большинство схем определяют:
 
-- `key` - internal field name and usually the YAML key.
-- `label` - human-readable name shown in the UI.
-- `type` - field type, such as text, number, select, GPIO, object, or list.
-- `required` - marks the field as required.
-- `default` - suggested default value.
-- `placeholder` - helper text shown before a value is entered.
-- `lvl` - indicates whether a field is simple, normal, or advanced.
-- `helpUrl` - documentation link for this specific field.
-- `note` - short informational note for the user.
-- `warning` - short warning shown near the field.
-- `error` - message used when the field represents an invalid state.
-- `fields` - nested fields for object-like structures.
-- `item` - item definition for list-like structures.
-- `options` - available values for select-like fields.
-- `dependsOn` - shows or emits a field only when another local value matches.
-- `globalDependsOn` - similar to `dependsOn`, but based on broader Builder state.
-- `emitYAML` - controls whether the field is included in generated YAML.
-- `yamlKey` - emits the field under a different YAML key.
-- `emitKey` - changes how a nested field key is emitted.
-- `domain` - domain used by reference or helper-related fields.
-- `idDomain` - domain where an identifier should be registered.
-- `allowSelfReference` - allows a reference field to point to the current item.
-- `templatable` - allows switching between a normal value and lambda-style value.
-- `settings` - additional behavior for specialized field types.
+- уникальный идентификатор схемы (unique schema identity)
+- домен ESPHome или тип компонента
+- поля, отображаемые в Конструкторе
+- необязательную информацию о зависимостях (dependencies)
+- необязательное наследование от общих базовых схем (shared base schemas)
+- необязательные метаданные, такие как ссылки на документацию или группировка превью
 
-The safest approach is to use only the keys needed to describe the real ESPHome option.
+Поля описывают значения, которые пользователь может редактировать. Они могут представлять собой простые значения, выбор из списка, контакты GPIO, вложенные объекты, списки, идентификаторы, ссылки, лямбда-выражения, необработанный YAML и другие поддерживаемые типы ввода.
 
 ---
 
-## Common Field Types
+## Общие ключи схемы
 
-The Builder supports several families of field types:
+Ниже приведены наиболее распространенные ключи верхнего уровня, используемые в схемах компонентов:
 
-- basic values, such as text, number, boolean, duration, and select fields
-- ESPHome-specific values, such as GPIO pins, IDs, references, icons, passwords, SSIDs, and slugs
-- advanced input types, such as lambda, YAML, and raw YAML fields
-- nested structures, such as objects and lists
-- controlled list variants for fixed or generated groups of values
+- `id` — уникальный идентификатор схемы.
+- `domain` — YAML-домен ESPHome, в который выводится компонент.
+- `platform` — имя платформы, используемое обычными компонентами ESPHome списочного типа.
+- `helpUrl` — ссылка на соответствующую документацию.
+- `fields` — список полей, отображаемых в Конструкторе.
+- `extends` — повторно использует другую схему или общее базовое определение.
+- `requirements` — описывает необходимые шины, протоколы, системы, сети или вспомогательные компоненты.
+- `renderAs` — изменяет способ вывода компонента, когда он не является обычным элементом платформы.
+- `previewGroup` — группирует соответствующий вывод YAML в интерфейсе предварительного просмотра.
+- `embedded` — позволяет компоненту выводить или управлять связанными вспомогательными разделами.
+- `platformByBus` — выбирает имя платформы на основе выбранного транспорта.
+- `domainBy` — выбирает выводимый домен YAML на основе значения поля.
+- `domainMap` — сопоставляет значения полей с выводимыми доменами YAML.
 
-Choose the simplest field type that matches the ESPHome documentation.
-
----
-
-## Reusing Existing Pieces
-
-Do not duplicate common fields when a shared base schema already exists.
-
-The schema system supports inheritance so common entity options, helper definitions, and repeated structures can be reused across multiple components.
-
-This keeps schemas smaller, easier to maintain, and more consistent across the Builder.
+Большинству схем требуется лишь небольшая часть этих ключей.
 
 ---
 
-## Dependencies And Requirements
+## Общие ключи полей
 
-Some components require other parts of the configuration to exist first, such as I2C, SPI, UART, WiFi, Ethernet, PSRAM, MQTT, BLE, or another component.
+Поля определяют отдельные значения или разделы внутри формы Конструктора.
 
-Schemas should describe those requirements so the Builder can guide the user and show useful warnings.
+- `key` — внутреннее имя поля, обычно соответствующее ключу YAML.
+- `label` — понятное имя, отображаемое в интерфейсе.
+- `type` — тип поля (например: text, number, select, GPIO, object или list).
+- `required` — помечает поле как обязательное.
+- `default` — рекомендуемое значение по умолчанию.
+- `placeholder` — подсказка, отображаемая до ввода значения.
+- `lvl` — указывает уровень сложности поля (simple, normal или advanced).
+- `helpUrl` — ссылка на документацию для этого конкретного поля.
+- `note` — короткое информационное примечание для пользователя.
+- `warning` — короткое предупреждение, отображаемое рядом с полем.
+- `error` — сообщение, используемое, когда поле находится в недопустимом состоянии.
+- `fields` — вложенные поля для структур типа "объект" (object).
+- `item` — определение элемента для структур типа "список" (list).
+- `options` — доступные значения для полей типа "выбор" (select).
+- `dependsOn` — отображает или выводит поле только тогда, когда совпадает другое локальное значение.
+- `globalDependsOn` — аналогично `dependsOn`, но на основе более широкого состояния Конструктора.
+- `emitYAML` — управляет тем, включается ли поле в сгенерированный YAML.
+- `yamlKey` — выводит поле под другим ключом YAML.
+- `emitKey` — изменяет способ вывода ключа вложенного поля.
+- `domain` — домен, используемый полями ссылок или вспомогательными полями.
+- `idDomain` — домен, в котором должен быть зарегистрирован идентификатор.
+- `allowSelfReference` — позволяет ссылочному полю указывать на текущий элемент.
+- `templatable` — позволяет переключаться между обычным значением и лямбда-выражением.
+- `settings` — дополнительные настройки для специализированных типов полей.
 
-Requirements should represent real runtime dependencies. They should not be used as a shortcut for unrelated behavior or platform compatibility notes.
-
----
-
-## Visibility And YAML Output
-
-Not every field shown in the Builder has to be emitted directly to YAML.
-
-Some fields are only used to control the UI, choose a transport variant, select a helper, or determine which other fields are visible.
-
-When designing a schema, keep the difference clear between:
-
-- fields needed by the user interface
-- fields stored in the project
-- fields emitted to ESPHome YAML
-
-The generated YAML should stay as close as possible to the official ESPHome format.
-
----
-
-## Shared Helpers And Hubs
-
-Some ESPHome components need additional helper sections or shared hubs.
-
-When that is the case, the schema should model the relationship clearly instead of hiding extra configuration from the user.
-
-If a helper can be reused by multiple components, prefer a shared selection flow rather than silently creating duplicate hidden sections.
+Самый безопасный подход — использовать только те ключи, которые необходимы для описания реального параметра ESPHome.
 
 ---
 
-## Validation
+## Общие типы полей
 
-Schemas can describe many common rules, but not every rule belongs directly in a schema.
+Конструктор поддерживает несколько семейств типов полей:
 
-Some validation may need to happen in the Builder runtime, especially when it depends on multiple fields, component-specific behavior, or generated display configuration.
+- базовые значения, такие как текстовые (text), числовые (number), логические (boolean), временные диапазоны (duration) и поля выбора (select)
+- специфичные для ESPHome значения, такие как контакты GPIO, идентификаторы (ID), ссылки (references), иконки, пароли, SSID и слаги (slugs)
+- расширенные типы ввода, такие как поля лямбда-выражений (lambda), YAML и необработанного YAML (raw YAML)
+- вложенные структуры, такие как объекты (objects) и списки (lists)
+- контролируемые варианты списков для фиксированных или генерируемых групп значений
 
-If the schema starts to feel like a workaround for missing runtime behavior, the runtime should probably be improved instead.
-
----
-
-## Basic Checklist
-
-Before considering a schema ready, check that:
-
-- the ESPHome documentation was reviewed
-- the YAML shape was identified correctly
-- the schema file is in the correct location
-- the component is registered in the catalog
-- common base schemas are reused where appropriate
-- dependencies are described accurately
-- the Builder form is understandable
-- the generated YAML matches ESPHome expectations
-- the frontend still builds successfully
+Выбирайте самый простой тип поля, соответствующий документации ESPHome.
 
 ---
 
-## Common Mistakes
+## Повторное использование существующих элементов
 
-Avoid these mistakes when creating schemas:
+Не дублируйте общие поля, если уже существует общая базовая схема.
 
-- adding a schema file without registering it in the catalog
-- copying shared fields instead of reusing existing base schemas
-- inventing custom schema behavior for a single component
-- modeling YAML in a way that does not match ESPHome documentation
-- hiding important helper configuration from the user
-- using dependencies for things that are not real dependencies
-- making the UI and generated YAML describe different concepts
+Система схем поддерживает наследование, поэтому общие параметры сущностей, вспомогательные определения и повторяющиеся структуры могут использоваться повторно в нескольких компонентах.
+
+Это делает схемы меньше, проще в обслуживании и более согласованными во всем Конструкторе.
 
 ---
 
-## Rule Of Thumb
+## Зависимости и требования
 
-A good schema is declarative, small, and faithful to ESPHome.
+Некоторые компоненты требуют предварительного существования других частей конфигурации, таких как I2C, SPI, UART, WiFi, Ethernet, PSRAM, MQTT, BLE или другого компонента.
 
-It should reuse existing schema patterns, keep one clear source of truth, and avoid special cases whenever possible.
+Схемы должны описывать эти требования, чтобы Конструктор мог направлять пользователя и показывать полезные предупреждения.
 
-If a component cannot be described cleanly with the existing schema system, it is better to improve the schema/runtime infrastructure than to create a fragile workaround.
+Требования должны отражать реальные зависимости времени выполнения. Их не следует использовать как обходной путь для несвязанного поведения или примечаний о совместимости платформ.
+
+---
+
+## Видимость и вывод YAML
+
+Не каждое поле, отображаемое в Конструкторе, должно выводиться непосредственно в YAML.
+
+Некоторые поля используются только для управления интерфейсом, выбора варианта транспорта, выбора помощника или определения видимости других полей.
+
+При разработке схемы четко разграничивайте:
+
+- поля, необходимые для пользовательского интерфейса
+- поля, сохраняемые в проекте
+- поля, выводимые в ESPHome YAML
+
+Сгенерированный YAML должен оставаться максимально близким к официальному формату ESPHome.
+
+---
+
+## Общие помощники и хабы (Shared Helpers & Hubs)
+
+Некоторым компонентам ESPHome требуются дополнительные вспомогательные разделы или общие хабы.
+
+В таких случаях схема должна четко моделировать эту взаимосвязь, а не скрывать дополнительные настройки от пользователя.
+
+Если вспомогательный компонент может использоваться несколькими компонентами повторно, отдавайте предпочтение общему процессу выбора (shared selection flow), а не скрытому созданию дубликатов разделов.
+
+---
+
+## Валидация
+
+Схемы могут описывать множество общих правил, но не каждое правило должно находиться непосредственно в схеме.
+
+Некоторая валидация должна происходить во время работы Конструктора, особенно когда она зависит от нескольких полей, специфического поведения компонентов или сгенерированной конфигурации отображения.
+
+Если схема начинает казаться обходным путем для отсутствующего поведения рантайма, вероятно, вместо этого следует улучшить рантайм.
+
+---
+
+## Базовый чек-лист
+
+Прежде чем считать схему готовой, убедитесь, что:
+
+- документация ESPHome была изучена
+- структура YAML была определена правильно
+- файл схемы находится в правильном месте
+- компонент зарегистрирован в каталоге
+- общие базовые схемы используются повторно там, где это уместно
+- зависимости описаны точно
+- форма в Конструкторе понятна
+- сгенерированный YAML matches ESPHome ожиданиям
+- фронтенд успешно собирается
+
+---
+
+## Распространенные ошибки
+
+Избегайте следующих ошибок при создании схем:
+
+- добавление файла схемы без регистрации в каталоге
+- копирование общих полей вместо повторного использования существующих базовых схем
+- создание кастомного поведения схемы для одного компонента
+- моделирование YAML способом, не соответствующим документации ESPHome
+- сокрытие важных вспомогательных настроек от пользователя
+- использование зависимостей для вещей, которые не являются реальными зависимостями
+- описание разных концепций в интерфейсе и сгенерированном YAML
+
+---
+
+## Золотое правило
+
+Хорошая схема — декларативная, компактная и точно соответствующая ESPHome.
+
+Она должна повторно использовать существующие шаблоны схем, иметь один четкий источник истины и избегать особых случаев везде, где это возможно.
+
+Если компонент не удается описать чисто с помощью существующей системы схем, лучше улучшить инфраструктуру схем или рантайма, чем создавать хрупкое обходное решение.
