@@ -1273,22 +1273,25 @@ button:disabled {
 .component-separator__row {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   width: 100%;
   position: relative;
   z-index: 1;
-  white-space: nowrap;
   padding: 0;
 }
 
 .component-separator__row span {
   background: #f3f5fa;
   padding-right: 17px;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .component-separator__row .sidebar-components-add {
   margin-left: auto;
   box-shadow: 0 0 0 6px #f3f5fa;
+  flex-shrink: 0;
 }
 
 .component-chip--pulse {
