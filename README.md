@@ -1,95 +1,95 @@
 # ESPConfig Designer v.1.2.2
 
-ESPConfig Designer is a Home Assistant ingress add-on for building, organizing, validating, compiling, and deploying ESPHome configurations through a schema-driven visual editor.
+ESPConfig Designer — это Ingress-аддон для Home Assistant, предназначенный для создания, структурирования, валидации, компиляции и развертывания конфигураций ESPHome с помощью визуального редактора на основе схем.
 
-The repository contains the full add-on:
+Репозиторий содержит полный код аддона:
 
-- `esp-config-designer/` -> backend Home Assistant add-on and API
-- `esp-config-designer-frontend/` -> Vue 3 frontend (Dashboard + Builder)
+- `esp-config-designer/` -> бэкенд аддона Home Assistant и API
+- `esp-config-designer-frontend/` -> фронтенд на Vue 3 (Панель управления / Dashboard + Конструктор / Builder)
 
-The add-on is designed to let users manage complete ESPHome projects without hand-editing YAML unless they want to.
-
----
-
-## Relationship With ESPHome
-
-ESPConfig Designer is an independent visual configuration tool for ESPHome. It is not affiliated with, endorsed by, sponsored by, or maintained by the ESPHome project or the Home Assistant project.
-
-The purpose of ESPConfig Designer is to make ESPHome configuration easier to build and maintain through a graphical, schema-driven editor. Generated output is standard ESPHome YAML that can be validated, compiled, and installed using ESPHome tooling.
-
-ESPHome itself is a separate open-source project distributed under its own licenses. Please refer to the official ESPHome repository and documentation for ESPHome licensing, documentation, component behavior, and compatibility details.
-
-The name "ESPHome" is used in this project only to describe compatibility with the ESPHome ecosystem.
+Аддон разработан для того, чтобы пользователи могли полностью управлять проектами ESPHome без ручного редактирования файлов YAML, если они этого не хотят.
 
 ---
 
-## What It Does
+## Взаимосвязь с ESPHome
 
-ESPConfig Designer provides:
+ESPConfig Designer — это независимый инструмент визуальной конфигурации для ESPHome. Он не связан с проектами ESPHome или Home Assistant, не поддерживается, не спонсируется и не одобрен ими.
 
-- a Dashboard for browsing projects in virtual folders
-- a Builder for editing device configuration through JSON schemas
-- live YAML preview generated from runtime form state
-- a Display Configurator for display-oriented components
-- an Asset Manager for images, fonts, and audio
-- integrated validate / clean / compile / OTA / logs workflows
-- project persistence, secrets editing, and device status tracking
+Назначение ESPConfig Designer — упростить создание и обслуживание конфигураций ESPHome с помощью графического редактора, управляемого схемами. Результатом его работы является стандартный YAML-файл ESPHome, который можно валидировать, компилировать и устанавливать с использованием стандартного инструментария ESPHome.
 
-The backend owns storage, files, jobs, and firmware artifacts.
-The frontend owns editing UX, schema runtime, preview generation, and install/log orchestration.
+Сам проект ESPHome является отдельным проектом с открытым исходным кодом, распространяемым под собственными лицензиями. Пожалуйста, обращайтесь к официальному репозиторию и документации ESPHome для получения сведений о лицензировании, документации, поведении компонентов и совместимости.
+
+Название «ESPHome» используется в этом проекте исключительно для описания совместимости с экосистемой ESPHome.
 
 ---
 
-### Dashboard
-Placeholder image should show:
+## Возможности
 
-- the left folder tree
-- the project cards/grid
-- online/offline state badges
-- the top action bar
+ESPConfig Designer предоставляет:
+
+- Панель управления (Dashboard) для просмотра проектов в виртуальных папках
+- Конструктор (Builder) для редактирования конфигурации устройств через JSON-схемы
+- Интерактивный предпросмотр YAML, генерируемый в реальном времени на основе состояния форм
+- Конфигуратор дисплея (Display Configurator) для компонентов, связанных с экранами
+- Менеджер ресурсов (Asset Manager) для изображений, шрифтов и аудио
+- Интегрированные процессы валидации / очистки / компиляции / OTA-обновления / просмотра логов
+- Сохранение проектов, редактирование секретов (secrets.yaml) и отслеживание статуса устройств
+
+Бэкенд отвечает за хранение данных, файлы, выполнение задач и артефакты прошивки.
+Фронтенд отвечает за интерфейс редактирования, обработку схем во время выполнения, генерацию предпросмотра и организацию процессов установки/логирования.
+
+---
+
+### Панель управления (Dashboard)
+Временное изображение должно показывать:
+
+- дерево папок слева
+- карточки/сетку проектов
+- индикаторы статуса устройств (онлайн/офлайн)
+- верхнюю панель действий
 
 ![Dashboard screenshot](docs/screenshots/dashboard-overview.png)
 
-### Builder
-Placeholder image should show:
+### Конструктор (Builder)
+Временное изображение должно показывать:
 
-- the Builder tabs
-- schema-driven form editing
-- YAML preview on the right
-- the top action bar (`Save`, `Validate`, `Install`, `Logs`)
+- вкладки Конструктора
+- редактирование формы на основе JSON-схем
+- предпросмотр YAML на панели справа
+- верхнюю панель действий (`Save`, `Validate`, `Install`, `Logs`)
 
 ![Builder screenshot](docs/screenshots/builder-overview.png)
 
-### Display Configurator
-Placeholder image should show:
+### Конфигуратор дисплея (Display Configurator)
+Временное изображение должно показывать:
 
-- canvas preview
-- element inspector / editing panel
-- example text/icon/image/shape elements
+- область предпросмотра (холст)
+- панель инспектирования и редактирования элементов
+- примеры текстовых элементов, иконок, изображений и фигур
 
 ![Display Configurator screenshot](docs/screenshots/display-configurator.png)
 
-### Asset Manager
-Placeholder image should show:
+### Менеджер ресурсов (Asset Manager)
+Временное изображение должно показывать:
 
-- modal with Images / Fonts / Audio tabs
-- upload / rename / delete controls
+- модальное окно с вкладками Шрифты (Fonts), Изображения (Images), Аудио (Audio)
+- элементы управления загрузкой, переименованием и удалением
 
 ![Asset Manager screenshot](docs/screenshots/asset-manager.png)
 
 ---
 
-## Repository Structure
+## Структура репозитория
 
-### Root
-- `README.md` -> public repository overview
+### Корневая директория
+- `README.md` -> публичное описание репозитория
 
-### Backend (`esp-config-designer/`)
-- Flask app that serves the API and frontend bundle
-- persists project JSON, YAML, assets, devices, jobs, firmware artifacts
-- runs ESPHome CLI jobs and exposes logs through streaming endpoints
+### Бэкенд (`esp-config-designer/`)
+- Приложение на Flask, обслуживающее API и предоставляющее собранный фронтенд
+- Сохраняет файлы проектов JSON, файлы конфигурации YAML, ресурсы, информацию об устройствах, задачи и артефакты прошивок
+- Запускает CLI-команды ESPHome и транслирует логи через потоковые эндпоинты
 
-Important files:
+Важные файлы:
 
 - `esp-config-designer/server.py`
 - `esp-config-designer/config.json`
@@ -97,16 +97,16 @@ Important files:
 - `esp-config-designer/Dockerfile`
 - `esp-config-designer/web/`
 
-### Frontend (`esp-config-designer-frontend/`)
-- Vue 3 + Vite app embedded inside the add-on
-- contains:
-  - Dashboard
-  - Builder
-  - Display Configurator
-  - Asset Manager
-  - shared install/log console flow
+### Фронтенд (`esp-config-designer-frontend/`)
+- Приложение на Vue 3 + Vite, встроенное внутрь аддона
+- Содержит:
+  - Панель управления (Dashboard)
+  - Конструктор (Builder)
+  - Конфигуратор дисплея (Display Configurator)
+  - Менеджер ресурсов (Asset Manager)
+  - Общую консоль для установки и логов
 
-Important files:
+Важные файлы:
 
 - `esp-config-designer-frontend/src/App.vue`
 - `esp-config-designer-frontend/src/views/DashboardView.vue`
@@ -116,118 +116,118 @@ Important files:
 
 ---
 
-## Architecture Overview
+## Обзор архитектуры
 
-### Backend responsibilities
-- YAML persistence
-- project JSON persistence
-- virtual folder index persistence
-- secrets file access
-- component catalog serving and custom component import/delete
-- assets API (images, fonts, audio)
-- device registry and device status
-- ESPHome validate/compile/install/log jobs
-- firmware artifact lookup/serving
-- static hosting of the built frontend
+### Зоны ответственности бэкенда
+- Сохранение файлов YAML
+- Сохранение файлов проектов JSON
+- Сохранение индекса виртуальных папок
+- Доступ к файлу секретов (secrets.yaml)
+- Предоставление каталога компонентов, импорт и удаление пользовательских компонентов
+- API ресурсов (изображения, шрифты, аудио)
+- Реестр устройств и их статус подключения
+- Запуск задач ESPHome по валидации, компиляции, установке и выводу логов
+- Поиск и отдача собранных артефактов прошивки
+- Статический хостинг собранного фронтенда
 
-### Frontend responsibilities
-- dashboard explorer and project selection UX
-- schema-driven form rendering
-- schema loading and extends resolution
-- YAML generation for preview/export
-- display editor UX
-- client-side validation and cross-field warnings
-- shared install/log modal orchestration
+### Зоны ответственности фронтенда
+- Проводник панели управления и интерфейс выбора проектов
+- Отрисовка форм на основе JSON-схем
+- Загрузка схем и разрешение механизма наследования (`extends`)
+- Генерация YAML для предпросмотра/экспорта
+- Интерфейс редактора дисплея
+- Валидация на стороне клиента и предупреждения о взаимозависимых полях
+- Управление модальным окном установки прошивки и вывода логов
 
-### Frontend / backend contract
-- frontend calls backend over ingress-safe HTTP with `credentials: include`
-- frontend persists project state only through backend endpoints
-- project JSON stores runtime config, not schema files
-- component catalog metadata is the single source of truth for component `schemaPath`
-
----
-
-## Main User Flows
-
-### Dashboard
-- browse projects in virtual folders
-- open an existing project in Builder
-- create a blank project (`New device`)
-- validate / install / logs for the selected project
-- customize project tile appearance
-
-### Builder
-- edit project configuration from schemas
-- preview YAML live
-- manage assets
-- edit display layouts
-- save project and YAML
-- validate / compile / OTA / serial flash / logs
-
-### Display workflow
-- create text/icon/image/shape/graph/animation elements
-- resolve fonts/images/animations into generated YAML assets
-- generate display lambda code automatically from layout state
+### Взаимодействие фронтенда и бэкенда (контракт)
+- Фронтенд отправляет запросы к бэкенду по HTTP (совместимому с Ingress) с параметром `credentials: include`
+- Фронтенд сохраняет состояние проекта исключительно через API-эндпоинты бэкенда
+- В JSON проекта хранится конфигурация времени выполнения, а не файлы схем
+- Метаданные каталога компонентов являются единственным источником истины для пути к схеме компонента (`schemaPath`)
 
 ---
 
-## Schema System
+## Основные пользовательские сценарии (User Flows)
 
-The frontend is schema-driven.
+### Панель управления (Dashboard)
+- Просмотр проектов в виртуальных папках
+- Открытие существующего проекта в Конструкторе
+- Создание пустого проекта (`New device`)
+- Вызов валидации, установки и логов для выбранного проекта
+- Настройка внешнего вида карточки проекта
 
-### Main schema locations
-- general schemas: `esp-config-designer-frontend/public/schemas/general/`
-- component schemas: `esp-config-designer-frontend/public/schemas/components/<domain>/<platform>.json`
-- component catalog: `esp-config-designer-frontend/public/components_list/components_list.json`
-- action picker index: `esp-config-designer-frontend/public/action_list/base_actions.json`
-- condition picker index: `esp-config-designer-frontend/public/condition_list/base_conditions.json`
+### Конструктор (Builder)
+- Редактирование конфигурации проекта на основе схем
+- Интерактивный предпросмотр генерируемого YAML
+- Управление ресурсами
+- Редактирование макетов дисплея
+- Сохранение проекта и файла YAML
+- Запуск валидации / компиляции / OTA-обновления / прошивки по кабелю / просмотра логов
 
-### Core rules
-- schemas support `extends`
-- visibility uses `dependsOn` / `globalDependsOn`
-- YAML emission uses `emitYAML`
-- requirements use namespaced IDs, for example:
+### Работа с дисплеем
+- Создание элементов текста, иконок, изображений, фигур, графиков и анимаций
+- Преобразование шрифтов, картинок и анимаций в ресурсы генерируемого YAML
+- Автоматическая генерация кода лямбда-функции дисплея на основе состояния макета
+
+---
+
+## Система схем
+
+Фронтенд полностью управляется схемами (schema-driven).
+
+### Основное расположение схем
+- Общие схемы: `esp-config-designer-frontend/public/schemas/general/`
+- Схемы компонентов: `esp-config-designer-frontend/public/schemas/components/<domain>/<platform>.json`
+- Каталог компонентов: `esp-config-designer-frontend/public/components_list/components_list.json`
+- Индекс выбора действий (actions): `esp-config-designer-frontend/public/action_list/base_actions.json`
+- Индекс выбора условий (conditions): `esp-config-designer-frontend/public/condition_list/base_conditions.json`
+
+### Ключевые правила
+- Схемы поддерживают наследование (`extends`)
+- Управление видимостью полей осуществляется через `dependsOn` / `globalDependsOn`
+- Вывод YAML настраивается с помощью `emitYAML`
+- Зависимости используют имена пространств имен (namespaces), например:
   - `bus:i2c`
   - `protocol:mqtt`
   - `system:psram`
   - `network:wifi`
   - `component:microphone`
-- root singleton components can render as `root_map`
-- `embedded` supports list and singleton map emission
+- Корневые компоненты-одиночки (singleton) могут рендериться как `root_map`
+- `embedded` поддерживает вывод списков и одиночных структур (map)
 
-Detailed authoring documentation lives in:
+Подробное руководство по созданию схем находится в файле:
 
 - `docs/HOW_TO_CREATE_SCHEMA.md`
 
-## Runtime Storage Model
+## Модель хранения данных в рантайме
 
-Base path depends on add-on option `use_esphome_shared_path`:
+Базовый путь зависит от опции аддона `use_esphome_shared_path`:
 
 - `false` -> `/config/ecd`
 - `true` -> `/config/esphome`
 
-Derived storage:
+Структура хранения данных:
 
-- YAML files: `<base>/*.yaml`
-- project JSON files: `<base>/esp_projects/*.json`
-- folder index: `<base>/esp_projects/projects.json`
-- assets:
+- YAML-файлы: `<base>/*.yaml`
+- JSON-файлы проектов: `<base>/esp_projects/*.json`
+- Индекс папок: `<base>/esp_projects/projects.json`
+- Ресурсы (assets):
   - `<base>/esp_assets/fonts/*`
   - `<base>/esp_assets/images/*`
   - `<base>/esp_assets/audio/*`
-  - manifest/index JSON files for each asset family
+  - JSON-файлы манифестов/индексов для каждой группы ресурсов
 
-Add-on runtime state:
+Состояние выполнения аддона (runtime state):
 
-- jobs: `/data/jobs/*.json` and `/data/jobs/*.log`
-- devices: `/data/devices.json`
-- ESPHome runtime data: `/data/esphome`
+- Задачи (jobs): `/data/jobs/*.json` and `/data/jobs/*.log`
+- Устройства: `/data/devices.json`
+- Данные выполнения ESPHome: `/data/esphome`
 
 ---
 
-## Backend API Summary
+## Сводка API бэкенда
 
-### Projects and YAML
+### Проекты и YAML
 - `GET /projects/list`
 - `GET /projects/load?name=<project>.json`
 - `POST /projects/save`
@@ -237,7 +237,7 @@ Add-on runtime state:
 - `GET /api/secrets/raw`
 - `POST /api/secrets/raw`
 
-### Assets
+### Ресурсы (Assets)
 - `GET /api/assets/manifest?kind=all|images|fonts|audio&refresh=0|1`
 - `GET /api/assets/<kind>/<filename>`
 - `POST /api/assets/upload?kind=images|fonts|audio`
@@ -246,13 +246,13 @@ Add-on runtime state:
 - `GET /api/assets/mdi-substitutions`
 - `POST /api/assets/refresh?kind=all|fonts|images|audio`
 
-### Devices
+### Устройства
 - `POST /api/devices/register`
 - `DELETE /api/devices/unregister?yaml=<node>.yaml|name=<device_key>`
 - `GET /api/devices/list?refresh=0|1`
 - `GET /api/devices/status?yaml=<node>.yaml&refresh=0|1`
 
-### Jobs and firmware
+### Задачи и прошивка
 - `POST /api/install` (`validate`, `clean`, `compile`, `ota`, `logs`)
 - `GET /api/jobs/<job_id>`
 - `GET /api/jobs/<job_id>/stream`
@@ -262,10 +262,10 @@ Add-on runtime state:
 
 ---
 
-## Local Development
+## Локальная разработка
 
-### Frontend
-From `esp-config-designer-frontend/`:
+### Фронтенд
+Запуск из директории `esp-config-designer-frontend/`:
 
 ```bash
 npm install
@@ -273,47 +273,47 @@ npm run dev
 npm run build
 ```
 
-Optional offline schema mode:
+Опциональный автономный режим схем (offline):
 
-Create `esp-config-designer-frontend/.env.local`:
+Создайте файл `esp-config-designer-frontend/.env.local`:
 
 ```bash
 VITE_DEV_OFFLINE=1
 ```
 
-In that mode the frontend reads catalog/schemas from `public/` and skips backend catalog/schema endpoints.
+В этом режиме фронтенд считывает каталог и схемы из папки `public/` и игнорирует эндпоинты бэкенда.
 
-### Backend
-The backend is packaged as a Home Assistant add-on. In normal development you edit:
+### Бэкенд
+Бэкенд упакован в виде аддона для Home Assistant. При обычной разработке вы редактируете файлы:
 
 - `esp-config-designer/server.py`
 - `esp-config-designer/config.json`
 - `esp-config-designer/run.sh`
 
-After backend changes you rebuild/restart the add-on.
+После внесения изменений в бэкенд необходимо пересобрать/перезапустить аддон.
 
-### Deploy frontend into add-on
-1. build frontend in `esp-config-designer-frontend/`
-2. copy `dist/*` into `esp-config-designer/web/`
-3. rebuild/restart the add-on
-
----
-
-## License
-
-ESPConfig Designer is released under the MIT License.
-
-Unless explicitly stated otherwise, the MIT License applies to all files included in this public repository, including the backend, frontend, included free schemas, schema format, and schema authoring documentation.
-
-Separately distributed paid schema packs, if offered, are not part of this public repository and are not covered by the repository MIT License unless explicitly stated in the package itself. Such packs may be distributed under separate commercial license terms.
-
-ESPHome is a separate project and remains governed by its own licenses. ESPConfig Designer does not grant any rights to ESPHome itself, its documentation, trademarks, or third-party dependencies.
+### Развертывание фронтенда в аддон
+1. Соберите фронтенд в директории `esp-config-designer-frontend/`
+2. Скопируйте содержимое папки `dist/*` в `esp-config-designer/web/`
+3. Пересоберите/перезапустите аддон
 
 ---
 
-## Notes For Reviewers / Contributors
+## Лицензия
 
-- this repository is intentionally schema-driven; many visible UI behaviors come from JSON schema, not hardcoded view logic
-- `component_list.json` is the single source of truth for component `schemaPath`
-- project JSON stores component IDs and runtime config, not schema paths
-- the frontend is split progressively into focused components/composables
+ESPConfig Designer распространяется под лицензией MIT.
+
+Если прямо не указано иное, лицензия MIT распространяется на все файлы в данном публичном репозитории, включая бэкенд, фронтенд, включенные бесплатные схемы, формат схем и документацию по созданию схем.
+
+Отдельно распространяемые платные наборы схем (если таковые предлагаются) не являются частью этого репозитория и не подпадают под действие лицензии MIT репозитория, если это явно не указано в самом пакете. Такие наборы могут распространяться на условиях отдельных коммерческих лицензий.
+
+ESPHome является независимым проектом и регулируется собственными лицензиями. ESPConfig Designer не предоставляет никаких прав на сам проект ESPHome, его документацию, товарные знаки или сторонние зависимости.
+
+---
+
+## Примечания для рецензентов и контрибьюторов
+
+- Данный репозиторий спроектирован с упором на управление схемами; большинство элементов поведения интерфейса определяются JSON-схемами, а не жестко закодированной логикой отображения.
+- `component_list.json` является единственным источником истины для пути к схеме компонента `schemaPath`.
+- JSON проекта хранит идентификаторы компонентов и конфигурацию среды выполнения, но не пути к схемам.
+- Фронтенд последовательно разделен на специализированные компоненты и composables.
